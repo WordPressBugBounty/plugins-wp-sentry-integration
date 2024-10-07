@@ -106,7 +106,7 @@ class TransactionItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInt
      */
     protected static function serializeSpan(\Sentry\Tracing\Span $span) : array
     {
-        $result = ['span_id' => (string) $span->getSpanId(), 'trace_id' => (string) $span->getTraceId(), 'start_timestamp' => $span->getStartTimestamp()];
+        $result = ['span_id' => (string) $span->getSpanId(), 'trace_id' => (string) $span->getTraceId(), 'start_timestamp' => $span->getStartTimestamp(), 'origin' => $span->getOrigin() ?? 'manual'];
         if ($span->getParentSpanId() !== null) {
             $result['parent_span_id'] = (string) $span->getParentSpanId();
         }

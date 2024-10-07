@@ -38,8 +38,9 @@ final class GuzzleTracingMiddleware
                 if ($parentSpan !== null && $parentSpan->getSampled()) {
                     $spanContext = new \Sentry\Tracing\SpanContext();
                     $spanContext->setOp('http.client');
-                    $spanContext->setDescription($request->getMethod() . ' ' . $partialUri);
                     $spanContext->setData($spanAndBreadcrumbData);
+                    $spanContext->setOrigin('auto.http.guzzle');
+                    $spanContext->setDescription($request->getMethod() . ' ' . $partialUri);
                     $childSpan = $parentSpan->startChild($spanContext);
                 }
                 if (self::shouldAttachTracingHeaders($client, $request)) {
