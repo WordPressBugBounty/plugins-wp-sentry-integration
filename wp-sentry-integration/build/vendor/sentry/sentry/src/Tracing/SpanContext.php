@@ -50,10 +50,6 @@ class SpanContext
      */
     private $endTimestamp;
     /**
-     * @var string|null the trace origin of the span
-     */
-    private $origin;
-    /**
      * @return self
      */
     public static function make()
@@ -200,18 +196,6 @@ class SpanContext
     public function setEndTimestamp(?float $endTimestamp)
     {
         $this->endTimestamp = $endTimestamp;
-        return $this;
-    }
-    public function getOrigin() : ?string
-    {
-        return $this->origin;
-    }
-    /**
-     * @return $this
-     */
-    public function setOrigin(?string $origin)
-    {
-        $this->origin = $origin;
         return $this;
     }
 }

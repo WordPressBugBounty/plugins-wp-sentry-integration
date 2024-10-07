@@ -79,7 +79,7 @@ class Metrics
              */
             $this->aggregator->add(\Sentry\Metrics\Types\DistributionType::TYPE, $key, \microtime(\true) - $startTimestamp, \Sentry\Metrics\MetricsUnit::second(), $tags, (int) $startTimestamp, $stackLevel + 4);
             return $result;
-        }, \Sentry\Tracing\SpanContext::make()->setOp('metric.timing')->setOrigin('auto.measure.metrics.timing')->setDescription($key));
+        }, \Sentry\Tracing\SpanContext::make()->setOp('metric.timing')->setDescription($key));
     }
     public function flush() : ?\Sentry\EventId
     {

@@ -28,7 +28,7 @@ class Client implements \Sentry\ClientInterface
     /**
      * The version of the SDK.
      */
-    public const SDK_VERSION = '4.9.0';
+    public const SDK_VERSION = '4.8.1';
     /**
      * @var Options The client options
      */
