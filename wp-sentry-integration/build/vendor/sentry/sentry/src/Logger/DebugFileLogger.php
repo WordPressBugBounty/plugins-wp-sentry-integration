@@ -15,8 +15,9 @@ class DebugFileLogger extends \WPSentry\ScopedVendor\Psr\Log\AbstractLogger
         $this->filePath = $filePath;
     }
     /**
-     * @param mixed   $level
-     * @param mixed[] $context
+     * @param mixed              $level
+     * @param string|\Stringable $message
+     * @param mixed[]            $context
      */
     public function log($level, $message, array $context = []) : void
     {

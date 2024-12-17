@@ -157,9 +157,6 @@ final class Transaction extends \Sentry\Tracing\Span
                 $event->setSdkMetadata('profile', $profile);
             }
         }
-        if (!empty($this->getMetricsSummary())) {
-            $event->setMetricsSummary($this->getMetricsSummary());
-        }
         return $this->hub->captureEvent($event);
     }
 }

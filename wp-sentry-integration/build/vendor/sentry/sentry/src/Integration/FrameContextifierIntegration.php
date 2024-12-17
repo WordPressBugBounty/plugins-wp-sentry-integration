@@ -55,12 +55,6 @@ final class FrameContextifierIntegration implements \Sentry\Integration\Integrat
                     $integration->addContextToStacktraceFrames($maxContextLines, $exception->getStacktrace());
                 }
             }
-            foreach ($event->getMetrics() as $metric) {
-                if ($metric->hasCodeLocation()) {
-                    $frame = $metric->getCodeLocation();
-                    $integration->addContextToStacktraceFrame($maxContextLines, $frame);
-                }
-            }
             return $event;
         });
     }

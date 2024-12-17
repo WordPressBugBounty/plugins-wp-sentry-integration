@@ -28,7 +28,7 @@ class Client implements \Sentry\ClientInterface
     /**
      * The version of the SDK.
      */
-    public const SDK_VERSION = '4.9.0';
+    public const SDK_VERSION = '4.10.0';
     /**
      * @var Options The client options
      */
@@ -303,8 +303,6 @@ class Client implements \Sentry\ClientInterface
                 return $this->options->getBeforeSendTransactionCallback()($event, $hint);
             case \Sentry\EventType::checkIn():
                 return $this->options->getBeforeSendCheckInCallback()($event, $hint);
-            case \Sentry\EventType::metrics():
-                return $this->options->getBeforeSendMetricsCallback()($event, $hint);
             default:
                 return $event;
         }
@@ -316,8 +314,6 @@ class Client implements \Sentry\ClientInterface
                 return 'before_send_transaction';
             case \Sentry\EventType::checkIn():
                 return 'before_send_check_in';
-            case \Sentry\EventType::metrics():
-                return 'before_send_metrics';
             default:
                 return 'before_send';
         }

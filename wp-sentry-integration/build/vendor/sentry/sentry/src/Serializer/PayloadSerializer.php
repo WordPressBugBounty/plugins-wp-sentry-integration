@@ -8,7 +8,6 @@ use Sentry\EventType;
 use Sentry\Options;
 use Sentry\Serializer\EnvelopItems\CheckInItem;
 use Sentry\Serializer\EnvelopItems\EventItem;
-use Sentry\Serializer\EnvelopItems\MetricsItem;
 use Sentry\Serializer\EnvelopItems\ProfileItem;
 use Sentry\Serializer\EnvelopItems\TransactionItem;
 use Sentry\Tracing\DynamicSamplingContext;
@@ -61,9 +60,6 @@ final class PayloadSerializer implements \Sentry\Serializer\PayloadSerializerInt
                 break;
             case \Sentry\EventType::checkIn():
                 $items = \Sentry\Serializer\EnvelopItems\CheckInItem::toEnvelopeItem($event);
-                break;
-            case \Sentry\EventType::metrics():
-                $items = \Sentry\Serializer\EnvelopItems\MetricsItem::toEnvelopeItem($event);
                 break;
         }
         return \sprintf("%s\n%s", \Sentry\Util\JSON::encode($envelopeHeader), $items);

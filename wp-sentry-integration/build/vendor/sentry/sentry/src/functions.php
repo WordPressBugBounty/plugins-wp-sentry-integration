@@ -333,6 +333,9 @@ function continueTrace(string $sentryTrace, string $baggage) : \Sentry\Tracing\T
     });
     return \Sentry\Tracing\TransactionContext::fromHeaders($sentryTrace, $baggage);
 }
+/**
+ * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+ */
 function metrics() : \Sentry\Metrics\Metrics
 {
     return \Sentry\Metrics\Metrics::getInstance();

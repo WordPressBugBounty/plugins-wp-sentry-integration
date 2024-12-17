@@ -78,9 +78,6 @@ class TransactionItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInt
             $payload['request'] = $event->getRequest();
         }
         $payload['spans'] = \array_values(\array_map([self::class, 'serializeSpan'], $event->getSpans()));
-        if (!empty($event->getMetricsSummary())) {
-            $payload['_metrics_summary'] = self::serializeMetricsSummary($event->getMetricsSummary());
-        }
         $transactionMetadata = $event->getSdkMetadata('transaction_metadata');
         if ($transactionMetadata instanceof \Sentry\Tracing\TransactionMetadata) {
             $payload['transaction_info']['source'] = (string) $transactionMetadata->getSource();
@@ -128,24 +125,6 @@ class TransactionItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInt
         if (!empty($span->getTags())) {
             $result['tags'] = $span->getTags();
         }
-        if (!empty($span->getMetricsSummary())) {
-            $result['_metrics_summary'] = self::serializeMetricsSummary($span->getMetricsSummary());
-        }
         return $result;
-    }
-    /**
-     * @param array<string, array<string, MetricsSummary>> $metricsSummary
-     *
-     * @return array<string, mixed>
-     */
-    protected static function serializeMetricsSummary(array $metricsSummary) : array
-    {
-        $formattedSummary = [];
-        foreach ($metricsSummary as $mri => $metrics) {
-            foreach ($metrics as $metric) {
-                $formattedSummary[$mri][] = $metric;
-            }
-        }
-        return $formattedSummary;
     }
 }

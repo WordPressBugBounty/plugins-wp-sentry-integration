@@ -3,6 +3,9 @@
 declare (strict_types=1);
 namespace Sentry\Metrics;
 
+/**
+ * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+ */
 final class MetricsUnit implements \Stringable
 {
     /**

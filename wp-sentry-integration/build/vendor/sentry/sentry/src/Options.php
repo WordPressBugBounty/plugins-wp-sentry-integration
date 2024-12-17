@@ -186,6 +186,8 @@ final class Options
     }
     /**
      * Gets whether a metric has their code location attached.
+     *
+     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
     public function shouldAttachMetricCodeLocations() : bool
     {
@@ -193,6 +195,8 @@ final class Options
     }
     /**
      * Sets whether a metric will have their code location attached.
+     *
+     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
     public function setAttachMetricCodeLocations(bool $enable) : self
     {
@@ -481,6 +485,8 @@ final class Options
      * If `null` is returned it won't be sent.
      *
      * @psalm-return callable(Event, ?EventHint): ?Event
+     *
+     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
     public function getBeforeSendMetricsCallback() : callable
     {
@@ -493,6 +499,8 @@ final class Options
      * @param callable $callback The callable
      *
      * @psalm-param callable(Event, ?EventHint): ?Event $callback
+     *
+     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
     public function setBeforeSendMetricsCallback(callable $callback) : self
     {
@@ -774,6 +782,16 @@ final class Options
         $this->options = $this->resolver->resolve($options);
         return $this;
     }
+    public function getHttpSslNativeCa() : bool
+    {
+        return $this->options['http_ssl_native_ca'];
+    }
+    public function setHttpSslNativeCa(bool $httpSslNativeCa) : self
+    {
+        $options = \array_merge($this->options, ['http_ssl_native_ca' => $httpSslNativeCa]);
+        $this->options = $this->resolver->resolve($options);
+        return $this;
+    }
     /**
      * Returns whether the requests should be compressed using GZIP or not.
      */
@@ -900,17 +918,69 @@ final class Options
      */
     private function configureOptions(\WPSentry\ScopedVendor\Symfony\Component\OptionsResolver\OptionsResolver $resolver) : void
     {
-        $resolver->setDefaults(['integrations' => [], 'default_integrations' => \true, 'prefixes' => \array_filter(\explode(\PATH_SEPARATOR, \get_include_path() ?: '')), 'sample_rate' => 1, 'enable_tracing' => null, 'traces_sample_rate' => null, 'traces_sampler' => null, 'profiles_sample_rate' => null, 'attach_stacktrace' => \false, 'attach_metric_code_locations' => \false, 'context_lines' => 5, 'environment' => $_SERVER['SENTRY_ENVIRONMENT'] ?? null, 'logger' => null, 'spotlight' => \false, 'spotlight_url' => 'http://localhost:8969', 'release' => $_SERVER['SENTRY_RELEASE'] ?? $_SERVER['AWS_LAMBDA_FUNCTION_VERSION'] ?? null, 'dsn' => $_SERVER['SENTRY_DSN'] ?? null, 'server_name' => \gethostname(), 'ignore_exceptions' => [], 'ignore_transactions' => [], 'before_send' => static function (\Sentry\Event $event) : Event {
-            return $event;
-        }, 'before_send_transaction' => static function (\Sentry\Event $transaction) : Event {
-            return $transaction;
-        }, 'before_send_check_in' => static function (\Sentry\Event $checkIn) : Event {
-            return $checkIn;
-        }, 'before_send_metrics' => static function (\Sentry\Event $metrics) : Event {
-            return $metrics;
-        }, 'trace_propagation_targets' => null, 'tags' => [], 'error_types' => null, 'max_breadcrumbs' => self::DEFAULT_MAX_BREADCRUMBS, 'before_breadcrumb' => static function (\Sentry\Breadcrumb $breadcrumb) : Breadcrumb {
-            return $breadcrumb;
-        }, 'in_app_exclude' => [], 'in_app_include' => [], 'send_default_pii' => \false, 'max_value_length' => 1024, 'transport' => null, 'http_client' => null, 'http_proxy' => null, 'http_proxy_authentication' => null, 'http_connect_timeout' => self::DEFAULT_HTTP_CONNECT_TIMEOUT, 'http_timeout' => self::DEFAULT_HTTP_TIMEOUT, 'http_ssl_verify_peer' => \true, 'http_compression' => \true, 'capture_silenced_errors' => \false, 'max_request_body_size' => 'medium', 'class_serializers' => []]);
+        $resolver->setDefaults([
+            'integrations' => [],
+            'default_integrations' => \true,
+            'prefixes' => \array_filter(\explode(\PATH_SEPARATOR, \get_include_path() ?: '')),
+            'sample_rate' => 1,
+            'enable_tracing' => null,
+            'traces_sample_rate' => null,
+            'traces_sampler' => null,
+            'profiles_sample_rate' => null,
+            'attach_stacktrace' => \false,
+            /**
+             * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+             */
+            'attach_metric_code_locations' => \false,
+            'context_lines' => 5,
+            'environment' => $_SERVER['SENTRY_ENVIRONMENT'] ?? null,
+            'logger' => null,
+            'spotlight' => \false,
+            'spotlight_url' => 'http://localhost:8969',
+            'release' => $_SERVER['SENTRY_RELEASE'] ?? $_SERVER['AWS_LAMBDA_FUNCTION_VERSION'] ?? null,
+            'dsn' => $_SERVER['SENTRY_DSN'] ?? null,
+            'server_name' => \gethostname(),
+            'ignore_exceptions' => [],
+            'ignore_transactions' => [],
+            'before_send' => static function (\Sentry\Event $event) : Event {
+                return $event;
+            },
+            'before_send_transaction' => static function (\Sentry\Event $transaction) : Event {
+                return $transaction;
+            },
+            'before_send_check_in' => static function (\Sentry\Event $checkIn) : Event {
+                return $checkIn;
+            },
+            /**
+             * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+             */
+            'before_send_metrics' => static function (\Sentry\Event $metrics) : ?Event {
+                return null;
+            },
+            'trace_propagation_targets' => null,
+            'tags' => [],
+            'error_types' => null,
+            'max_breadcrumbs' => self::DEFAULT_MAX_BREADCRUMBS,
+            'before_breadcrumb' => static function (\Sentry\Breadcrumb $breadcrumb) : Breadcrumb {
+                return $breadcrumb;
+            },
+            'in_app_exclude' => [],
+            'in_app_include' => [],
+            'send_default_pii' => \false,
+            'max_value_length' => 1024,
+            'transport' => null,
+            'http_client' => null,
+            'http_proxy' => null,
+            'http_proxy_authentication' => null,
+            'http_connect_timeout' => self::DEFAULT_HTTP_CONNECT_TIMEOUT,
+            'http_timeout' => self::DEFAULT_HTTP_TIMEOUT,
+            'http_ssl_verify_peer' => \true,
+            'http_ssl_native_ca' => \false,
+            'http_compression' => \true,
+            'capture_silenced_errors' => \false,
+            'max_request_body_size' => 'medium',
+            'class_serializers' => [],
+        ]);
         $resolver->setAllowedTypes('prefixes', 'string[]');
         $resolver->setAllowedTypes('sample_rate', ['int', 'float']);
         $resolver->setAllowedTypes('enable_tracing', ['null', 'bool']);

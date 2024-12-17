@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7
+class ComposerStaticInit051a794f37738f33175e6fd813d3a087
 {
     public static $files = array (
         'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -124,13 +124,7 @@ class ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7
         'Sentry\\Logger\\DebugFileLogger' => __DIR__ . '/..' . '/sentry/sentry/src/Logger/DebugFileLogger.php',
         'Sentry\\Logger\\DebugStdOutLogger' => __DIR__ . '/..' . '/sentry/sentry/src/Logger/DebugStdOutLogger.php',
         'Sentry\\Metrics\\Metrics' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Metrics.php',
-        'Sentry\\Metrics\\MetricsAggregator' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/MetricsAggregator.php',
         'Sentry\\Metrics\\MetricsUnit' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/MetricsUnit.php',
-        'Sentry\\Metrics\\Types\\AbstractType' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/AbstractType.php',
-        'Sentry\\Metrics\\Types\\CounterType' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/CounterType.php',
-        'Sentry\\Metrics\\Types\\DistributionType' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/DistributionType.php',
-        'Sentry\\Metrics\\Types\\GaugeType' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/GaugeType.php',
-        'Sentry\\Metrics\\Types\\SetType' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/SetType.php',
         'Sentry\\MonitorConfig' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorConfig.php',
         'Sentry\\MonitorSchedule' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorSchedule.php',
         'Sentry\\MonitorScheduleUnit' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorScheduleUnit.php',
@@ -145,7 +139,6 @@ class ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7
         'Sentry\\Serializer\\EnvelopItems\\CheckInItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/CheckInItem.php',
         'Sentry\\Serializer\\EnvelopItems\\EnvelopeItemInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/EnvelopeItemInterface.php',
         'Sentry\\Serializer\\EnvelopItems\\EventItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/EventItem.php',
-        'Sentry\\Serializer\\EnvelopItems\\MetricsItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/MetricsItem.php',
         'Sentry\\Serializer\\EnvelopItems\\ProfileItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/ProfileItem.php',
         'Sentry\\Serializer\\EnvelopItems\\TransactionItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/TransactionItem.php',
         'Sentry\\Serializer\\PayloadSerializer' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/PayloadSerializer.php',
@@ -389,9 +382,9 @@ class ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2aa9a56deb33213f39770bfc3131bea7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit051a794f37738f33175e6fd813d3a087::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit051a794f37738f33175e6fd813d3a087::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit051a794f37738f33175e6fd813d3a087::$classMap;
 
         }, null, ClassLoader::class);
     }

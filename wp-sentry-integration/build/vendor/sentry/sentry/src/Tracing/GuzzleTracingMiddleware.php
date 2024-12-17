@@ -59,9 +59,15 @@ final class GuzzleTracingMiddleware
                     } elseif ($responseOrException instanceof \WPSentry\ScopedVendor\GuzzleHttp\Exception\RequestException) {
                         $response = $responseOrException->getResponse();
                     }
+                    $breadcrumbLevel = \Sentry\Breadcrumb::LEVEL_INFO;
                     if ($response !== null) {
                         $spanAndBreadcrumbData['http.response.body.size'] = $response->getBody()->getSize();
                         $spanAndBreadcrumbData['http.response.status_code'] = $response->getStatusCode();
+                        if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 500) {
+                            $breadcrumbLevel = \Sentry\Breadcrumb::LEVEL_WARNING;
+                        } elseif ($response->getStatusCode() >= 500) {
+                            $breadcrumbLevel = \Sentry\Breadcrumb::LEVEL_ERROR;
+                        }
                     }
                     if ($childSpan !== null) {
                         if ($response !== null) {
@@ -71,7 +77,7 @@ final class GuzzleTracingMiddleware
                             $childSpan->setStatus(\Sentry\Tracing\SpanStatus::internalError());
                         }
                     }
-                    $hub->addBreadcrumb(new \Sentry\Breadcrumb(\Sentry\Breadcrumb::LEVEL_INFO, \Sentry\Breadcrumb::TYPE_HTTP, 'http', null, \array_merge(['url' => (string) $partialUri], $spanAndBreadcrumbData)));
+                    $hub->addBreadcrumb(new \Sentry\Breadcrumb($breadcrumbLevel, \Sentry\Breadcrumb::TYPE_HTTP, 'http', null, \array_merge(['url' => (string) $partialUri], $spanAndBreadcrumbData)));
                     if ($responseOrException instanceof \Throwable) {
                         throw $responseOrException;
                     }

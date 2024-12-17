@@ -6,25 +6,25 @@ $loader = require_once __DIR__.'/autoload.php';
 
 // Aliases for the whitelisted classes. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#class-whitelisting
-if (!class_exists('ComposerAutoloaderInit2aa9a56deb33213f39770bfc3131bea7', false) && !interface_exists('ComposerAutoloaderInit2aa9a56deb33213f39770bfc3131bea7', false) && !trait_exists('ComposerAutoloaderInit2aa9a56deb33213f39770bfc3131bea7', false)) {
-    spl_autoload_call('WPSentry\ScopedVendor\ComposerAutoloaderInit2aa9a56deb33213f39770bfc3131bea7');
+if (!class_exists('ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087', false) && !interface_exists('ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087', false) && !trait_exists('ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087', false)) {
+    spl_autoload_call('WPSentry\ScopedVendor\ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087');
 }
 
 // Functions whitelisting. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#functions-whitelisting
-if (!function_exists('composerRequire2aa9a56deb33213f39770bfc3131bea7')) {
-    function composerRequire2aa9a56deb33213f39770bfc3131bea7() {
-        return \WPSentry\ScopedVendor\composerRequire2aa9a56deb33213f39770bfc3131bea7(...func_get_args());
+if (!function_exists('trigger_deprecation')) {
+    function trigger_deprecation() {
+        return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
+    }
+}
+if (!function_exists('composerRequire051a794f37738f33175e6fd813d3a087')) {
+    function composerRequire051a794f37738f33175e6fd813d3a087() {
+        return \WPSentry\ScopedVendor\composerRequire051a794f37738f33175e6fd813d3a087(...func_get_args());
     }
 }
 if (!function_exists('includeIfExists')) {
     function includeIfExists() {
         return \WPSentry\ScopedVendor\includeIfExists(...func_get_args());
-    }
-}
-if (!function_exists('trigger_deprecation')) {
-    function trigger_deprecation() {
-        return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
     }
 }
 

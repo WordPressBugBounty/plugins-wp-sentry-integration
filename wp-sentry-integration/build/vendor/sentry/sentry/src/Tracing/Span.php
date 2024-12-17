@@ -5,7 +5,6 @@ namespace Sentry\Tracing;
 
 use Sentry\EventId;
 use Sentry\Metrics\MetricsUnit;
-use Sentry\Metrics\Types\SetType;
 use Sentry\SentrySdk;
 use Sentry\State\Scope;
 /**
@@ -73,10 +72,6 @@ class Span
      * @var Transaction|null The transaction containing this span
      */
     protected $transaction;
-    /**
-     * @var array<string, array<string, MetricsSummary>>
-     */
-    protected $metricsSummary = [];
     /**
      * @var string|null The trace origin of the span. If no origin is set, the span is considered to be "manual".
      *
@@ -429,36 +424,17 @@ class Span
         return $this;
     }
     /**
-     * @return array<string, array<string, MetricsSummary>>
+     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
     public function getMetricsSummary() : array
     {
-        return $this->metricsSummary;
+        return [];
     }
     /**
-     * @param string|int|float $value
-     * @param string[]         $tags
+     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
     public function setMetricsSummary(string $type, string $key, $value, \Sentry\Metrics\MetricsUnit $unit, array $tags) : void
     {
-        $mri = \sprintf('%s:%s@%s', $type, $key, (string) $unit);
-        $bucketKey = $mri . \serialize($tags);
-        if (isset($this->metricsSummary[$mri]) && \array_key_exists($bucketKey, $this->metricsSummary[$mri])) {
-            if ($type === \Sentry\Metrics\Types\SetType::TYPE) {
-                $value = 1.0;
-            } else {
-                $value = (float) $value;
-            }
-            $summary = $this->metricsSummary[$mri][$bucketKey];
-            $this->metricsSummary[$mri][$bucketKey] = ['min' => \min($summary['min'], $value), 'max' => \max($summary['max'], $value), 'sum' => $summary['sum'] + $value, 'count' => $summary['count'] + 1, 'tags' => $tags];
-        } else {
-            if ($type === \Sentry\Metrics\Types\SetType::TYPE) {
-                $value = 0.0;
-            } else {
-                $value = (float) $value;
-            }
-            $this->metricsSummary[$mri][$bucketKey] = ['min' => $value, 'max' => $value, 'sum' => $value, 'count' => 1, 'tags' => $tags];
-        }
     }
     /**
      * Sets the trace origin for this span.
