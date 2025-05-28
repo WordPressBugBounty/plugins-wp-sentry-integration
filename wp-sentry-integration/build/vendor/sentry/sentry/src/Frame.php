@@ -11,6 +11,9 @@ namespace Sentry;
 final class Frame
 {
     public const INTERNAL_FRAME_FILENAME = '[internal]';
+    /**
+     * @deprecated This constant is deprecated and will be removed in 5.x.
+     */
     public const ANONYMOUS_CLASS_PREFIX = "class@anonymous\0";
     /**
      * @var string|null The name of the function being called

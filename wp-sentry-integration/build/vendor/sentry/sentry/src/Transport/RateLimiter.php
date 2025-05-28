@@ -69,18 +69,24 @@ final class RateLimiter
         }
         return \false;
     }
-    public function isRateLimited(\Sentry\EventType $eventType) : bool
+    /**
+     * @param string|EventType $eventType
+     */
+    public function isRateLimited($eventType) : bool
     {
         $disabledUntil = $this->getDisabledUntil($eventType);
         return $disabledUntil > \time();
     }
-    public function getDisabledUntil(\Sentry\EventType $eventType) : int
+    /**
+     * @param string|EventType $eventType
+     */
+    public function getDisabledUntil($eventType) : int
     {
-        $category = (string) $eventType;
-        if ($eventType === \Sentry\EventType::event()) {
-            $category = self::DATA_CATEGORY_ERROR;
+        $eventType = $eventType instanceof \Sentry\EventType ? (string) $eventType : $eventType;
+        if ($eventType === 'event') {
+            $eventType = self::DATA_CATEGORY_ERROR;
         }
-        return \max($this->rateLimits['all'] ?? 0, $this->rateLimits[$category] ?? 0);
+        return \max($this->rateLimits['all'] ?? 0, $this->rateLimits[$eventType] ?? 0);
     }
     private function parseRetryAfterHeader(int $currentTime, string $header) : int
     {

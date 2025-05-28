@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit051a794f37738f33175e6fd813d3a087
+class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
 {
     public static $files = array (
         'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -382,9 +382,9 @@ class ComposerStaticInit051a794f37738f33175e6fd813d3a087
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit051a794f37738f33175e6fd813d3a087::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit051a794f37738f33175e6fd813d3a087::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit051a794f37738f33175e6fd813d3a087::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd::$classMap;
 
         }, null, ClassLoader::class);
     }

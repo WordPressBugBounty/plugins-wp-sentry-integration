@@ -18,7 +18,7 @@ class EventItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInterface
     public static function toEnvelopeItem(\Sentry\Event $event) : string
     {
         $header = ['type' => (string) $event->getType(), 'content_type' => 'application/json'];
-        $payload = ['timestamp' => $event->getTimestamp(), 'platform' => 'php', 'sdk' => ['name' => $event->getSdkIdentifier(), 'version' => $event->getSdkVersion()]];
+        $payload = ['timestamp' => $event->getTimestamp(), 'platform' => 'php', 'sdk' => $event->getSdkPayload()];
         if ($event->getStartTimestamp() !== null) {
             $payload['start_timestamp'] = $event->getStartTimestamp();
         }

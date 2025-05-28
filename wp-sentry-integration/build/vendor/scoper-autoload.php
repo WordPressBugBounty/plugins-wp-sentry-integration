@@ -6,25 +6,25 @@ $loader = require_once __DIR__.'/autoload.php';
 
 // Aliases for the whitelisted classes. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#class-whitelisting
-if (!class_exists('ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087', false) && !interface_exists('ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087', false) && !trait_exists('ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087', false)) {
-    spl_autoload_call('WPSentry\ScopedVendor\ComposerAutoloaderInit051a794f37738f33175e6fd813d3a087');
+if (!class_exists('ComposerAutoloaderInite01b2370fafa8098a8c475e72cdfd6dd', false) && !interface_exists('ComposerAutoloaderInite01b2370fafa8098a8c475e72cdfd6dd', false) && !trait_exists('ComposerAutoloaderInite01b2370fafa8098a8c475e72cdfd6dd', false)) {
+    spl_autoload_call('WPSentry\ScopedVendor\ComposerAutoloaderInite01b2370fafa8098a8c475e72cdfd6dd');
 }
 
 // Functions whitelisting. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#functions-whitelisting
-if (!function_exists('trigger_deprecation')) {
-    function trigger_deprecation() {
-        return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
-    }
-}
-if (!function_exists('composerRequire051a794f37738f33175e6fd813d3a087')) {
-    function composerRequire051a794f37738f33175e6fd813d3a087() {
-        return \WPSentry\ScopedVendor\composerRequire051a794f37738f33175e6fd813d3a087(...func_get_args());
-    }
-}
 if (!function_exists('includeIfExists')) {
     function includeIfExists() {
         return \WPSentry\ScopedVendor\includeIfExists(...func_get_args());
+    }
+}
+if (!function_exists('composerRequiree01b2370fafa8098a8c475e72cdfd6dd')) {
+    function composerRequiree01b2370fafa8098a8c475e72cdfd6dd() {
+        return \WPSentry\ScopedVendor\composerRequiree01b2370fafa8098a8c475e72cdfd6dd(...func_get_args());
+    }
+}
+if (!function_exists('trigger_deprecation')) {
+    function trigger_deprecation() {
+        return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
     }
 }
 

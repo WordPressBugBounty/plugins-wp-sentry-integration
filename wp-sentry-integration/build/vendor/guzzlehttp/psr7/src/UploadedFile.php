@@ -9,7 +9,7 @@ use WPSentry\ScopedVendor\Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 class UploadedFile implements \WPSentry\ScopedVendor\Psr\Http\Message\UploadedFileInterface
 {
-    private const ERRORS = [\UPLOAD_ERR_OK, \UPLOAD_ERR_INI_SIZE, \UPLOAD_ERR_FORM_SIZE, \UPLOAD_ERR_PARTIAL, \UPLOAD_ERR_NO_FILE, \UPLOAD_ERR_NO_TMP_DIR, \UPLOAD_ERR_CANT_WRITE, \UPLOAD_ERR_EXTENSION];
+    private const ERROR_MAP = [\UPLOAD_ERR_OK => 'UPLOAD_ERR_OK', \UPLOAD_ERR_INI_SIZE => 'UPLOAD_ERR_INI_SIZE', \UPLOAD_ERR_FORM_SIZE => 'UPLOAD_ERR_FORM_SIZE', \UPLOAD_ERR_PARTIAL => 'UPLOAD_ERR_PARTIAL', \UPLOAD_ERR_NO_FILE => 'UPLOAD_ERR_NO_FILE', \UPLOAD_ERR_NO_TMP_DIR => 'UPLOAD_ERR_NO_TMP_DIR', \UPLOAD_ERR_CANT_WRITE => 'UPLOAD_ERR_CANT_WRITE', \UPLOAD_ERR_EXTENSION => 'UPLOAD_ERR_EXTENSION'];
     /**
      * @var string|null
      */
@@ -75,7 +75,7 @@ class UploadedFile implements \WPSentry\ScopedVendor\Psr\Http\Message\UploadedFi
      */
     private function setError(int $error) : void
     {
-        if (\false === \in_array($error, \WPSentry\ScopedVendor\GuzzleHttp\Psr7\UploadedFile::ERRORS, \true)) {
+        if (!isset(\WPSentry\ScopedVendor\GuzzleHttp\Psr7\UploadedFile::ERROR_MAP[$error])) {
             throw new \InvalidArgumentException('Invalid error status for UploadedFile');
         }
         $this->error = $error;
@@ -101,7 +101,7 @@ class UploadedFile implements \WPSentry\ScopedVendor\Psr\Http\Message\UploadedFi
     private function validateActive() : void
     {
         if (\false === $this->isOk()) {
-            throw new \RuntimeException('Cannot retrieve stream due to upload error');
+            throw new \RuntimeException(\sprintf('Cannot retrieve stream due to upload error (%s)', self::ERROR_MAP[$this->error]));
         }
         if ($this->isMoved()) {
             throw new \RuntimeException('Cannot retrieve stream after it has already been moved');

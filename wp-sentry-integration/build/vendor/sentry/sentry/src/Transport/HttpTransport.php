@@ -64,7 +64,7 @@ class HttpTransport implements \Sentry\Transport\TransportInterface
         $targetDescription = \sprintf('%s [project:%s]', $this->options->getDsn()->getHost(), $this->options->getDsn()->getProjectId());
         $this->logger->info(\sprintf('Sending %s to %s.', $eventDescription, $targetDescription), ['event' => $event]);
         $eventType = $event->getType();
-        if ($this->rateLimiter->isRateLimited($eventType)) {
+        if ($this->rateLimiter->isRateLimited((string) $eventType)) {
             $this->logger->warning(\sprintf('Rate limit exceeded for sending requests of type "%s".', (string) $eventType), ['event' => $event]);
             return new \Sentry\Transport\Result(\Sentry\Transport\ResultStatus::rateLimit());
         }

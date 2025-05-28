@@ -65,13 +65,28 @@ final class FrameBuilder
         $strippedFilePath = $this->stripPrefixFromFilePath($this->options, $file);
         if (isset($backtraceFrame['class']) && isset($backtraceFrame['function'])) {
             $functionName = $backtraceFrame['class'];
-            if (\mb_substr($functionName, 0, \mb_strlen(\Sentry\Frame::ANONYMOUS_CLASS_PREFIX)) === \Sentry\Frame::ANONYMOUS_CLASS_PREFIX) {
-                $functionName = \Sentry\Frame::ANONYMOUS_CLASS_PREFIX . $this->stripPrefixFromFilePath($this->options, \substr($backtraceFrame['class'], \strlen(\Sentry\Frame::ANONYMOUS_CLASS_PREFIX)));
+            // Skip if no prefixes are set
+            if ($this->options->getPrefixes()) {
+                $prefixStrippedFunctionName = \preg_replace_callback('/@anonymous\\x00([^:]+)(:.*)?/', function (array $matches) {
+                    return "@anonymous\0" . $this->stripPrefixFromFilePath($this->options, $matches[1]) . ($matches[2] ?? '');
+                }, $functionName);
+                if ($prefixStrippedFunctionName) {
+                    $functionName = $prefixStrippedFunctionName;
+                }
             }
             $rawFunctionName = \sprintf('%s::%s', $backtraceFrame['class'], $backtraceFrame['function']);
             $functionName = \sprintf('%s::%s', \preg_replace('/(?::\\d+\\$|0x)[a-fA-F0-9]+$/', '', $functionName), $backtraceFrame['function']);
         } elseif (isset($backtraceFrame['function'])) {
             $functionName = $backtraceFrame['function'];
+        }
+        // Starting with PHP 8.4 a closure function call is reported as "{closure:filename:line}" instead of just "{closure}", properly strip the prefixes from that format
+        if (\PHP_VERSION_ID >= 80400 && $functionName !== null && $this->options->getPrefixes()) {
+            $prefixStrippedFunctionName = \preg_replace_callback('/^\\{closure:(.*?):(\\d+)}$/', function (array $matches) {
+                return '{closure:' . $this->stripPrefixFromFilePath($this->options, $matches[1]) . ':' . $matches[2] . '}';
+            }, $functionName);
+            if ($prefixStrippedFunctionName) {
+                $functionName = $prefixStrippedFunctionName;
+            }
         }
         return new \Sentry\Frame($functionName, $strippedFilePath, $line, $rawFunctionName, $file !== \Sentry\Frame::INTERNAL_FRAME_FILENAME ? $file : null, $this->getFunctionArguments($backtraceFrame), $this->isFrameInApp($file, $functionName));
     }

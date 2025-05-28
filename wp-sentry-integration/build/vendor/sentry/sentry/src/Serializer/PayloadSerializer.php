@@ -34,7 +34,7 @@ final class PayloadSerializer implements \Sentry\Serializer\PayloadSerializerInt
     public function serialize(\Sentry\Event $event) : string
     {
         // @see https://develop.sentry.dev/sdk/envelopes/#envelope-headers
-        $envelopeHeader = ['event_id' => (string) $event->getId(), 'sent_at' => \gmdate('Y-m-d\\TH:i:s\\Z'), 'dsn' => (string) $this->options->getDsn(), 'sdk' => ['name' => $event->getSdkIdentifier(), 'version' => $event->getSdkVersion()]];
+        $envelopeHeader = ['event_id' => (string) $event->getId(), 'sent_at' => \gmdate('Y-m-d\\TH:i:s\\Z'), 'dsn' => (string) $this->options->getDsn(), 'sdk' => $event->getSdkPayload()];
         $dynamicSamplingContext = $event->getSdkMetadata('dynamic_sampling_context');
         if ($dynamicSamplingContext instanceof \Sentry\Tracing\DynamicSamplingContext) {
             $entries = $dynamicSamplingContext->getEntries();

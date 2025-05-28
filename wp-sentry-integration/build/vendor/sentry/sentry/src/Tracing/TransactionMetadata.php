@@ -18,17 +18,29 @@ final class TransactionMetadata
      */
     private $source;
     /**
+     * @var float|int|null
+     */
+    private $parentSamplingRate;
+    /**
+     * @var float|int|null
+     */
+    private $sampleRand;
+    /**
      * Constructor.
      *
      * @param float|int|null              $samplingRate           The sampling rate
      * @param DynamicSamplingContext|null $dynamicSamplingContext The Dynamic Sampling Context
      * @param TransactionSource|null      $source                 The transaction source
+     * @param float|null                  $parentSamplingRate     The parent sampling rate
+     * @param float|null                  $sampleRand             The trace sample rand
      */
-    public function __construct($samplingRate = null, ?\Sentry\Tracing\DynamicSamplingContext $dynamicSamplingContext = null, ?\Sentry\Tracing\TransactionSource $source = null)
+    public function __construct($samplingRate = null, ?\Sentry\Tracing\DynamicSamplingContext $dynamicSamplingContext = null, ?\Sentry\Tracing\TransactionSource $source = null, ?float $parentSamplingRate = null, ?float $sampleRand = null)
     {
         $this->samplingRate = $samplingRate;
         $this->dynamicSamplingContext = $dynamicSamplingContext;
         $this->source = $source ?? \Sentry\Tracing\TransactionSource::custom();
+        $this->parentSamplingRate = $parentSamplingRate;
+        $this->sampleRand = $sampleRand ?? \round(\mt_rand(0, \mt_getrandmax() - 1) / \mt_getrandmax(), 6);
     }
     /**
      * @return float|int|null
@@ -43,6 +55,24 @@ final class TransactionMetadata
     public function setSamplingRate($samplingRate) : self
     {
         $this->samplingRate = $samplingRate;
+        return $this;
+    }
+    public function getParentSamplingRate() : ?float
+    {
+        return $this->parentSamplingRate;
+    }
+    public function setParentSamplingRate(?float $parentSamplingRate) : self
+    {
+        $this->parentSamplingRate = $parentSamplingRate;
+        return $this;
+    }
+    public function getSampleRand() : ?float
+    {
+        return $this->sampleRand;
+    }
+    public function setSampleRand(?float $sampleRand) : self
+    {
+        $this->sampleRand = $sampleRand;
         return $this;
     }
     public function getDynamicSamplingContext() : ?\Sentry\Tracing\DynamicSamplingContext
