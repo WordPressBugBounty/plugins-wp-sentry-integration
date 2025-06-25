@@ -177,21 +177,20 @@ abstract class AbstractSerializer
     /**
      * Serializes the given value to a string.
      *
-     * @param mixed $value The value to serialize
+     * @param string $value The value to serialize
      */
-    protected function serializeString($value) : string
+    protected function serializeString(string $value) : string
     {
-        $value = (string) $value;
         // we always guarantee this is coerced, even if we can't detect encoding
         if ($currentEncoding = \mb_detect_encoding($value, $this->mbDetectOrder)) {
-            $value = \mb_convert_encoding($value, 'UTF-8', $currentEncoding);
+            $encoded = \mb_convert_encoding($value, 'UTF-8', $currentEncoding) ?: '<encoding error>';
         } else {
-            $value = \mb_convert_encoding($value, 'UTF-8');
+            $encoded = \mb_convert_encoding($value, 'UTF-8') ?: '<encoding error>';
         }
-        if (\mb_strlen($value) > $this->options->getMaxValueLength()) {
-            $value = \mb_substr($value, 0, $this->options->getMaxValueLength() - 10, 'UTF-8') . ' {clipped}';
+        if (\mb_strlen($encoded) > $this->options->getMaxValueLength()) {
+            $encoded = \mb_substr($encoded, 0, $this->options->getMaxValueLength() - 10, 'UTF-8') . ' {clipped}';
         }
-        return $value;
+        return $encoded;
     }
     /**
      * @param mixed $value
@@ -202,6 +201,10 @@ abstract class AbstractSerializer
     {
         if ($value === null || \is_bool($value) || \is_numeric($value)) {
             return $value;
+        }
+        if ($value instanceof \WPSentry\ScopedVendor\UnitEnum) {
+            $reflection = new \ReflectionObject($value);
+            return 'Enum ' . $reflection->getName() . '::' . $value->name;
         }
         if (\is_object($value)) {
             $reflection = new \ReflectionObject($value);
@@ -230,7 +233,10 @@ abstract class AbstractSerializer
         if (\is_array($value)) {
             return 'Array of length ' . \count($value);
         }
-        return $this->serializeString($value);
+        if (\is_string($value) || \is_object($value) && \method_exists($value, '__toString')) {
+            return $this->serializeString((string) $value);
+        }
+        return null;
     }
     private function formatDate(\DateTimeInterface $date) : string
     {

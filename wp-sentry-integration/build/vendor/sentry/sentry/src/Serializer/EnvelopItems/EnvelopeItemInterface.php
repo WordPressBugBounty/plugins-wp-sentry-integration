@@ -9,5 +9,5 @@ use Sentry\Event;
  */
 interface EnvelopeItemInterface
 {
-    public static function toEnvelopeItem(\Sentry\Event $event) : string;
+    public static function toEnvelopeItem(\Sentry\Event $event) : ?string;
 }

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
+class ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f
 {
     public static $files = array (
         'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -81,6 +81,8 @@ class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'Sentry\\Attributes\\Attribute' => __DIR__ . '/..' . '/sentry/sentry/src/Attributes/Attribute.php',
+        'Sentry\\Attributes\\AttributeBag' => __DIR__ . '/..' . '/sentry/sentry/src/Attributes/AttributeBag.php',
         'Sentry\\Breadcrumb' => __DIR__ . '/..' . '/sentry/sentry/src/Breadcrumb.php',
         'Sentry\\CheckIn' => __DIR__ . '/..' . '/sentry/sentry/src/CheckIn.php',
         'Sentry\\CheckInStatus' => __DIR__ . '/..' . '/sentry/sentry/src/CheckInStatus.php',
@@ -122,7 +124,12 @@ class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
         'Sentry\\Integration\\RequestIntegration' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/RequestIntegration.php',
         'Sentry\\Integration\\TransactionIntegration' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/TransactionIntegration.php',
         'Sentry\\Logger\\DebugFileLogger' => __DIR__ . '/..' . '/sentry/sentry/src/Logger/DebugFileLogger.php',
+        'Sentry\\Logger\\DebugLogger' => __DIR__ . '/..' . '/sentry/sentry/src/Logger/DebugLogger.php',
         'Sentry\\Logger\\DebugStdOutLogger' => __DIR__ . '/..' . '/sentry/sentry/src/Logger/DebugStdOutLogger.php',
+        'Sentry\\Logs\\Log' => __DIR__ . '/..' . '/sentry/sentry/src/Logs/Log.php',
+        'Sentry\\Logs\\LogLevel' => __DIR__ . '/..' . '/sentry/sentry/src/Logs/LogLevel.php',
+        'Sentry\\Logs\\Logs' => __DIR__ . '/..' . '/sentry/sentry/src/Logs/Logs.php',
+        'Sentry\\Logs\\LogsAggregator' => __DIR__ . '/..' . '/sentry/sentry/src/Logs/LogsAggregator.php',
         'Sentry\\Metrics\\Metrics' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Metrics.php',
         'Sentry\\Metrics\\MetricsUnit' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/MetricsUnit.php',
         'Sentry\\MonitorConfig' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorConfig.php',
@@ -139,6 +146,7 @@ class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
         'Sentry\\Serializer\\EnvelopItems\\CheckInItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/CheckInItem.php',
         'Sentry\\Serializer\\EnvelopItems\\EnvelopeItemInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/EnvelopeItemInterface.php',
         'Sentry\\Serializer\\EnvelopItems\\EventItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/EventItem.php',
+        'Sentry\\Serializer\\EnvelopItems\\LogsItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/LogsItem.php',
         'Sentry\\Serializer\\EnvelopItems\\ProfileItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/ProfileItem.php',
         'Sentry\\Serializer\\EnvelopItems\\TransactionItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/TransactionItem.php',
         'Sentry\\Serializer\\PayloadSerializer' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/PayloadSerializer.php',
@@ -179,12 +187,14 @@ class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
         'Sentry\\Transport\\ResultStatus' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/ResultStatus.php',
         'Sentry\\Transport\\TransportInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/TransportInterface.php',
         'Sentry\\UserDataBag' => __DIR__ . '/..' . '/sentry/sentry/src/UserDataBag.php',
+        'Sentry\\Util\\Arr' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Arr.php',
         'Sentry\\Util\\Http' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Http.php',
         'Sentry\\Util\\JSON' => __DIR__ . '/..' . '/sentry/sentry/src/Util/JSON.php',
         'Sentry\\Util\\PHPConfiguration' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPConfiguration.php',
         'Sentry\\Util\\PHPVersion' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPVersion.php',
         'Sentry\\Util\\PrefixStripper' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PrefixStripper.php',
         'Sentry\\Util\\SentryUid' => __DIR__ . '/..' . '/sentry/sentry/src/Util/SentryUid.php',
+        'Sentry\\Util\\Str' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Str.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
         'Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
@@ -382,9 +392,9 @@ class ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite01b2370fafa8098a8c475e72cdfd6dd::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f::$classMap;
 
         }, null, ClassLoader::class);
     }

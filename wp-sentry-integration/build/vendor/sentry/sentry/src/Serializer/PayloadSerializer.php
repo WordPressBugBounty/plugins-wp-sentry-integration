@@ -8,6 +8,7 @@ use Sentry\EventType;
 use Sentry\Options;
 use Sentry\Serializer\EnvelopItems\CheckInItem;
 use Sentry\Serializer\EnvelopItems\EventItem;
+use Sentry\Serializer\EnvelopItems\LogsItem;
 use Sentry\Serializer\EnvelopItems\ProfileItem;
 use Sentry\Serializer\EnvelopItems\TransactionItem;
 use Sentry\Tracing\DynamicSamplingContext;
@@ -42,26 +43,24 @@ final class PayloadSerializer implements \Sentry\Serializer\PayloadSerializerInt
                 $envelopeHeader['trace'] = $entries;
             }
         }
-        $items = '';
+        $items = [];
         switch ($event->getType()) {
             case \Sentry\EventType::event():
-                $items = \Sentry\Serializer\EnvelopItems\EventItem::toEnvelopeItem($event);
+                $items[] = \Sentry\Serializer\EnvelopItems\EventItem::toEnvelopeItem($event);
                 break;
             case \Sentry\EventType::transaction():
-                $transactionItem = \Sentry\Serializer\EnvelopItems\TransactionItem::toEnvelopeItem($event);
+                $items[] = \Sentry\Serializer\EnvelopItems\TransactionItem::toEnvelopeItem($event);
                 if ($event->getSdkMetadata('profile') !== null) {
-                    $profileItem = \Sentry\Serializer\EnvelopItems\ProfileItem::toEnvelopeItem($event);
-                    if ($profileItem !== '') {
-                        $items = \sprintf("%s\n%s", $transactionItem, $profileItem);
-                        break;
-                    }
+                    $items[] = \Sentry\Serializer\EnvelopItems\ProfileItem::toEnvelopeItem($event);
                 }
-                $items = $transactionItem;
                 break;
             case \Sentry\EventType::checkIn():
-                $items = \Sentry\Serializer\EnvelopItems\CheckInItem::toEnvelopeItem($event);
+                $items[] = \Sentry\Serializer\EnvelopItems\CheckInItem::toEnvelopeItem($event);
+                break;
+            case \Sentry\EventType::logs():
+                $items[] = \Sentry\Serializer\EnvelopItems\LogsItem::toEnvelopeItem($event);
                 break;
         }
-        return \sprintf("%s\n%s", \Sentry\Util\JSON::encode($envelopeHeader), $items);
+        return \sprintf("%s\n%s", \Sentry\Util\JSON::encode($envelopeHeader), \implode("\n", \array_filter($items)));
     }
 }

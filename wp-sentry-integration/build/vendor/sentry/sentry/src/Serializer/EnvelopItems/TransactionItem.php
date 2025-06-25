@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Sentry\Serializer\EnvelopItems;
 
 use Sentry\Event;
+use Sentry\EventType;
 use Sentry\Serializer\Traits\BreadcrumbSeralizerTrait;
 use Sentry\Tracing\Span;
 use Sentry\Tracing\TransactionMetadata;
@@ -24,7 +25,7 @@ class TransactionItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInt
     use BreadcrumbSeralizerTrait;
     public static function toEnvelopeItem(\Sentry\Event $event) : string
     {
-        $header = ['type' => (string) $event->getType(), 'content_type' => 'application/json'];
+        $header = ['type' => (string) \Sentry\EventType::transaction(), 'content_type' => 'application/json'];
         $payload = ['timestamp' => $event->getTimestamp(), 'platform' => 'php', 'sdk' => $event->getSdkPayload()];
         if ($event->getStartTimestamp() !== null) {
             $payload['start_timestamp'] = $event->getStartTimestamp();

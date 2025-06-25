@@ -8,6 +8,7 @@ use Sentry\ExceptionDataBag;
 use Sentry\Serializer\Traits\BreadcrumbSeralizerTrait;
 use Sentry\Serializer\Traits\StacktraceFrameSeralizerTrait;
 use Sentry\Util\JSON;
+use Sentry\Util\Str;
 /**
  * @internal
  */
@@ -77,7 +78,7 @@ class EventItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInterface
             if (empty($event->getMessageParams())) {
                 $payload['message'] = $event->getMessage();
             } else {
-                $payload['message'] = ['message' => $event->getMessage(), 'params' => $event->getMessageParams(), 'formatted' => $event->getMessageFormatted() ?? \vsprintf($event->getMessage(), $event->getMessageParams())];
+                $payload['message'] = ['message' => $event->getMessage(), 'params' => $event->getMessageParams(), 'formatted' => $event->getMessageFormatted() ?? \Sentry\Util\Str::vsprintfOrNull($event->getMessage(), $event->getMessageParams()) ?? $event->getMessage()];
             }
         }
         $exceptions = $event->getExceptions();
