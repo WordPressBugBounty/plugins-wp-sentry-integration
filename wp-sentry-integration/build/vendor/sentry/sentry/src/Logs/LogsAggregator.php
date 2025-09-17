@@ -51,7 +51,7 @@ final class LogsAggregator
             }
             $formattedMessage = $message;
         }
-        $log = (new \Sentry\Logs\Log($timestamp, $this->getTraceId($hub), $level, $formattedMessage))->setAttribute('sentry.release', $options->getRelease())->setAttribute('sentry.environment', $options->getEnvironment() ?? \Sentry\Event::DEFAULT_ENVIRONMENT)->setAttribute('sentry.server.address', $options->getServerName())->setAttribute('sentry.message.template', $message)->setAttribute('sentry.trace.parent_span_id', $hub->getSpan() ? $hub->getSpan()->getSpanId() : null);
+        $log = (new \Sentry\Logs\Log($timestamp, $this->getTraceId($hub), $level, $formattedMessage))->setAttribute('sentry.release', $options->getRelease())->setAttribute('sentry.environment', $options->getEnvironment() ?? \Sentry\Event::DEFAULT_ENVIRONMENT)->setAttribute('sentry.server.address', $options->getServerName())->setAttribute('sentry.trace.parent_span_id', $hub->getSpan() ? $hub->getSpan()->getSpanId() : null);
         if ($client instanceof \Sentry\Client) {
             $log->setAttribute('sentry.sdk.name', $client->getSdkIdentifier());
             $log->setAttribute('sentry.sdk.version', $client->getSdkVersion());
@@ -70,19 +70,28 @@ final class LogsAggregator
                 }
             }
         });
-        foreach ($values as $key => $value) {
-            $log->setAttribute("sentry.message.parameter.{$key}", $value);
+        if (\count($values)) {
+            $log->setAttribute('sentry.message.template', $message);
+            foreach ($values as $key => $value) {
+                $log->setAttribute("sentry.message.parameter.{$key}", $value);
+            }
         }
         $attributes = \Sentry\Util\Arr::simpleDot($attributes);
         foreach ($attributes as $key => $value) {
             $attribute = \Sentry\Attributes\Attribute::tryFromValue($value);
+            if (!\is_string($key)) {
+                if ($sdkLogger !== null) {
+                    $sdkLogger->info(\sprintf("Dropping log attribute with non-string key '%s' and value of type '%s'.", $key, \gettype($value)));
+                }
+                continue;
+            }
             if ($attribute === null) {
                 if ($sdkLogger !== null) {
                     $sdkLogger->info(\sprintf("Dropping log attribute {$key} with value of type '%s' because it is not serializable or an unsupported type.", \gettype($value)));
                 }
-            } else {
-                $log->setAttribute($key, $attribute);
+                continue;
             }
+            $log->setAttribute($key, $attribute);
         }
         $log = $options->getBeforeSendLogCallback()($log);
         if ($log === null) {

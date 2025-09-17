@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f
+class ComposerStaticInit46d36000e3db35f67a2755ab04089e99
 {
     public static $files = array (
         'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -136,8 +136,10 @@ class ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f
         'Sentry\\MonitorSchedule' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorSchedule.php',
         'Sentry\\MonitorScheduleUnit' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorScheduleUnit.php',
         'Sentry\\Monolog\\BreadcrumbHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/BreadcrumbHandler.php',
+        'Sentry\\Monolog\\CompatibilityLogLevelTrait' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/CompatibilityLogLevelTrait.php',
         'Sentry\\Monolog\\CompatibilityProcessingHandlerTrait' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/CompatibilityProcessingHandlerTrait.php',
         'Sentry\\Monolog\\Handler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/Handler.php',
+        'Sentry\\Monolog\\LogsHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/LogsHandler.php',
         'Sentry\\Options' => __DIR__ . '/..' . '/sentry/sentry/src/Options.php',
         'Sentry\\Profiling\\Profile' => __DIR__ . '/..' . '/sentry/sentry/src/Profiling/Profile.php',
         'Sentry\\Profiling\\Profiler' => __DIR__ . '/..' . '/sentry/sentry/src/Profiling/Profiler.php',
@@ -177,6 +179,7 @@ class ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f
         'Sentry\\Tracing\\SpanRecorder' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/SpanRecorder.php',
         'Sentry\\Tracing\\SpanStatus' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/SpanStatus.php',
         'Sentry\\Tracing\\TraceId' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/TraceId.php',
+        'Sentry\\Tracing\\Traits\\TraceHeaderParserTrait' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/Traits/TraceHeaderParserTrait.php',
         'Sentry\\Tracing\\Transaction' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/Transaction.php',
         'Sentry\\Tracing\\TransactionContext' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/TransactionContext.php',
         'Sentry\\Tracing\\TransactionMetadata' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/TransactionMetadata.php',
@@ -392,9 +395,9 @@ class ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit8c0d0eb9141aafe9564e00a32c2c780f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit46d36000e3db35f67a2755ab04089e99::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit46d36000e3db35f67a2755ab04089e99::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit46d36000e3db35f67a2755ab04089e99::$classMap;
 
         }, null, ClassLoader::class);
     }

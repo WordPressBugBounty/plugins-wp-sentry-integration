@@ -236,6 +236,11 @@ class Hub implements \Sentry\State\HubInterface
                 return $transaction;
             }
             $transaction->getMetadata()->setSamplingRate($sampleRate);
+            // Always overwrite the sample_rate in the DSC
+            $dynamicSamplingContext = $context->getMetadata()->getDynamicSamplingContext();
+            if ($dynamicSamplingContext !== null) {
+                $dynamicSamplingContext->set('sample_rate', (string) $sampleRate, \true);
+            }
             if ($sampleRate === 0.0) {
                 $transaction->setSampled(\false);
                 $logger->info(\sprintf('Transaction [%s] was started but not sampled because sample rate (decided by %s) is %s.', (string) $transaction->getTraceId(), $sampleSource, $sampleRate), ['context' => $context]);
