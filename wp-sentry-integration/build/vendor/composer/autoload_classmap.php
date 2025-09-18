@@ -304,6 +304,7 @@ return array(
     'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\OptionConfigurator' => $vendorDir . '/symfony/options-resolver/OptionConfigurator.php',
     'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\Options' => $vendorDir . '/symfony/options-resolver/Options.php',
     'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\OptionsResolver' => $vendorDir . '/symfony/options-resolver/OptionsResolver.php',
+    'WP_Sentry_Action_Scheduler_Integration' => $baseDir . '/../src/plugins/class-wp-sentry-action-scheduler-integration.php',
     'WP_Sentry_Admin_Page' => $baseDir . '/../src/class-wp-sentry-admin-page.php',
     'WP_Sentry_Js_Tracker' => $baseDir . '/../src/class-wp-sentry-js-tracker.php',
     'WP_Sentry_Php_Tracing' => $baseDir . '/../src/tracing/class-wp-sentry-php-tracing.php',
