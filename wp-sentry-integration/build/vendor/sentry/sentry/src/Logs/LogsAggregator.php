@@ -78,13 +78,13 @@ final class LogsAggregator
         }
         $attributes = \Sentry\Util\Arr::simpleDot($attributes);
         foreach ($attributes as $key => $value) {
-            $attribute = \Sentry\Attributes\Attribute::tryFromValue($value);
             if (!\is_string($key)) {
                 if ($sdkLogger !== null) {
                     $sdkLogger->info(\sprintf("Dropping log attribute with non-string key '%s' and value of type '%s'.", $key, \gettype($value)));
                 }
                 continue;
             }
+            $attribute = \Sentry\Attributes\Attribute::tryFromValue($value);
             if ($attribute === null) {
                 if ($sdkLogger !== null) {
                     $sdkLogger->info(\sprintf("Dropping log attribute {$key} with value of type '%s' because it is not serializable or an unsupported type.", \gettype($value)));
@@ -100,9 +100,8 @@ final class LogsAggregator
             }
             return;
         }
-        // We check if it's a `LogsLogger` to avoid a infinite loop where the logger is logging the logs it's writing
         if ($sdkLogger !== null) {
-            $sdkLogger->log((string) $log->getLevel(), "Logs item: {$log->getBody()}", $log->attributes()->toSimpleArray());
+            $sdkLogger->log($log->getPsrLevel(), "Logs item: {$log->getBody()}", $log->attributes()->toSimpleArray());
         }
         $this->logs[] = $log;
     }

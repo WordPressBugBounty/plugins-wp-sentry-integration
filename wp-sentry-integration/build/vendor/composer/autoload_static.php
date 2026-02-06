@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3f1cbd3c706016c14503332b26340ae0
+class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
 {
     public static $files = array (
         'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -79,6 +79,7 @@ class ComposerStaticInit3f1cbd3c706016c14503332b26340ae0
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Sentry\\Attributes\\Attribute' => __DIR__ . '/..' . '/sentry/sentry/src/Attributes/Attribute.php',
@@ -191,6 +192,7 @@ class ComposerStaticInit3f1cbd3c706016c14503332b26340ae0
         'Sentry\\Transport\\TransportInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/TransportInterface.php',
         'Sentry\\UserDataBag' => __DIR__ . '/..' . '/sentry/sentry/src/UserDataBag.php',
         'Sentry\\Util\\Arr' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Arr.php',
+        'Sentry\\Util\\ClockMock' => __DIR__ . '/..' . '/sentry/sentry/src/Util/ClockMock.php',
         'Sentry\\Util\\Http' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Http.php',
         'Sentry\\Util\\JSON' => __DIR__ . '/..' . '/sentry/sentry/src/Util/JSON.php',
         'Sentry\\Util\\PHPConfiguration' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPConfiguration.php',
@@ -396,9 +398,9 @@ class ComposerStaticInit3f1cbd3c706016c14503332b26340ae0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3f1cbd3c706016c14503332b26340ae0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3f1cbd3c706016c14503332b26340ae0::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3f1cbd3c706016c14503332b26340ae0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c::$classMap;
 
         }, null, ClassLoader::class);
     }

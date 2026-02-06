@@ -932,7 +932,7 @@ final class Options
      *                                   captured. It can be set to one of the
      *                                   following values:
      *
-     *                                    - none: request bodies are never sent
+     *                                    - never: request bodies are never sent
      *                                    - small: only small request bodies will
      *                                      be captured where the cutoff for small
      *                                      depends on the SDK (typically 4KB)
@@ -1225,13 +1225,13 @@ final class Options
         }
     }
     /**
-     * Validates if the value of the max_breadcrumbs option is in range.
+     * Validates if the value of the max_breadcrumbs option is valid.
      *
      * @param int $value The value to validate
      */
     private function validateMaxBreadcrumbsOptions(int $value) : bool
     {
-        return $value >= 0 && $value <= self::DEFAULT_MAX_BREADCRUMBS;
+        return $value >= 0;
     }
     /**
      * Validates that the values passed to the `class_serializers` option are valid.

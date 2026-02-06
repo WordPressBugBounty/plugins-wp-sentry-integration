@@ -54,7 +54,7 @@ class LogsHandler implements \Monolog\Handler\HandlerInterface
         if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Throwable) {
             return \false;
         }
-        \Sentry\Logs\Logs::getInstance()->aggregator()->add(self::getSentryLogLevelFromMonologLevel($record['level']), $record['message'], [], \array_merge($record['context'], $record['extra']));
+        \Sentry\Logs\Logs::getInstance()->aggregator()->add(self::getSentryLogLevelFromMonologLevel($record['level']), $record['message'], [], $this->compileAttributes($record));
         return $this->bubble === \false;
     }
     /**
@@ -93,5 +93,22 @@ class LogsHandler implements \Monolog\Handler\HandlerInterface
     {
         // To adhere to the interface we need to return a formatter so we return a default one
         return new \Monolog\Formatter\LineFormatter();
+    }
+    public function __destruct()
+    {
+        try {
+            $this->close();
+        } catch (\Throwable $e) {
+            // Just in case so that the destructor can never fail.
+        }
+    }
+    /**
+     * @param array<string,mixed>|LogRecord $record
+     *
+     * @return array<string,mixed>
+     */
+    protected function compileAttributes($record) : array
+    {
+        return \array_merge($record['context'], $record['extra'], ['sentry.origin' => 'auto.log.monolog']);
     }
 }

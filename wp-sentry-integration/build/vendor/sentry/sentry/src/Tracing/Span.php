@@ -21,6 +21,12 @@ use Sentry\State\Scope;
 class Span
 {
     /**
+     * Maximum number of flags allowed. We only track the first flags set.
+     *
+     * @internal
+     */
+    public const MAX_FLAGS = 10;
+    /**
      * @var SpanId Span ID
      */
     protected $spanId;
@@ -52,6 +58,10 @@ class Span
      * @var array<string, string> A List of tags associated to this span
      */
     protected $tags = [];
+    /**
+     * @var array<string, bool> A List of flags associated to this span
+     */
+    protected $flags = [];
     /**
      * @var array<string, mixed> An arbitrary mapping of additional metadata
      */
@@ -280,6 +290,18 @@ class Span
         return $this;
     }
     /**
+     * Sets a feature flag associated to this span.
+     *
+     * @return $this
+     */
+    public function setFlag(string $key, bool $result)
+    {
+        if (\count($this->flags) < self::MAX_FLAGS) {
+            $this->flags[$key] = $result;
+        }
+        return $this;
+    }
+    /**
      * Gets the ID of the span.
      */
     public function getSpanId() : \Sentry\Tracing\SpanId
@@ -316,7 +338,11 @@ class Span
     public function getData(?string $key = null, $default = null)
     {
         if ($key === null) {
-            return $this->data;
+            $data = $this->data;
+            foreach ($this->flags as $flagKey => $flagValue) {
+                $data["flag.evaluation.{$flagKey}"] = $flagValue;
+            }
+            return $data;
         }
         return $this->data[$key] ?? $default;
     }

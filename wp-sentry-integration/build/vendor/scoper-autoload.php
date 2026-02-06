@@ -6,25 +6,20 @@ $loader = require_once __DIR__.'/autoload.php';
 
 // Aliases for the whitelisted classes. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#class-whitelisting
-if (!class_exists('ComposerAutoloaderInit3f1cbd3c706016c14503332b26340ae0', false) && !interface_exists('ComposerAutoloaderInit3f1cbd3c706016c14503332b26340ae0', false) && !trait_exists('ComposerAutoloaderInit3f1cbd3c706016c14503332b26340ae0', false)) {
-    spl_autoload_call('WPSentry\ScopedVendor\ComposerAutoloaderInit3f1cbd3c706016c14503332b26340ae0');
+if (!class_exists('ComposerAutoloaderInit7d2059a8ea77f2dd8d515bcf9b17ef7c', false) && !interface_exists('ComposerAutoloaderInit7d2059a8ea77f2dd8d515bcf9b17ef7c', false) && !trait_exists('ComposerAutoloaderInit7d2059a8ea77f2dd8d515bcf9b17ef7c', false)) {
+    spl_autoload_call('WPSentry\ScopedVendor\ComposerAutoloaderInit7d2059a8ea77f2dd8d515bcf9b17ef7c');
 }
 
 // Functions whitelisting. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#functions-whitelisting
-if (!function_exists('trigger_deprecation')) {
-    function trigger_deprecation() {
-        return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
-    }
-}
 if (!function_exists('includeIfExists')) {
     function includeIfExists() {
         return \WPSentry\ScopedVendor\includeIfExists(...func_get_args());
     }
 }
-if (!function_exists('composerRequire3f1cbd3c706016c14503332b26340ae0')) {
-    function composerRequire3f1cbd3c706016c14503332b26340ae0() {
-        return \WPSentry\ScopedVendor\composerRequire3f1cbd3c706016c14503332b26340ae0(...func_get_args());
+if (!function_exists('trigger_deprecation')) {
+    function trigger_deprecation() {
+        return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
     }
 }
 

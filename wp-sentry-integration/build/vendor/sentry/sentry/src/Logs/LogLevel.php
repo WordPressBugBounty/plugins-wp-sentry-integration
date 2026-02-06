@@ -57,6 +57,23 @@ class LogLevel
     {
         return $this->priority;
     }
+    public function toPsrLevel() : string
+    {
+        switch ($this->value) {
+            case 'trace':
+            case 'debug':
+                return \WPSentry\ScopedVendor\Psr\Log\LogLevel::DEBUG;
+            case 'warn':
+                return \WPSentry\ScopedVendor\Psr\Log\LogLevel::WARNING;
+            case 'error':
+                return \WPSentry\ScopedVendor\Psr\Log\LogLevel::ERROR;
+            case 'fatal':
+                return \WPSentry\ScopedVendor\Psr\Log\LogLevel::CRITICAL;
+            case 'info':
+            default:
+                return \WPSentry\ScopedVendor\Psr\Log\LogLevel::INFO;
+        }
+    }
     private static function getInstance(string $value, int $priority) : self
     {
         if (!isset(self::$instances[$value])) {

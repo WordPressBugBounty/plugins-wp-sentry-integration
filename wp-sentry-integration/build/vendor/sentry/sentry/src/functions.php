@@ -338,3 +338,13 @@ function metrics() : \Sentry\Metrics\Metrics
 {
     return \Sentry\Metrics\Metrics::getInstance();
 }
+/**
+ * Adds a feature flag evaluation to the current scope.
+ * When invoked repeatedly for the same name, the most recent value is used.
+ */
+function addFeatureFlag(string $name, bool $result) : void
+{
+    \Sentry\SentrySdk::getCurrentHub()->configureScope(function (\Sentry\State\Scope $scope) use($name, $result) {
+        $scope->addFeatureFlag($name, $result);
+    });
+}
