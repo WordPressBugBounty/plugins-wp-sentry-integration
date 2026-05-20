@@ -22,6 +22,9 @@ trait MessageTrait
     {
         return $this->protocol;
     }
+    /**
+     * @return static
+     */
     public function withProtocolVersion($version) : \WPSentry\ScopedVendor\Psr\Http\Message\MessageInterface
     {
         if ($this->protocol === $version) {
@@ -52,6 +55,9 @@ trait MessageTrait
     {
         return \implode(', ', $this->getHeader($header));
     }
+    /**
+     * @return static
+     */
     public function withHeader($header, $value) : \WPSentry\ScopedVendor\Psr\Http\Message\MessageInterface
     {
         $this->assertHeader($header);
@@ -65,6 +71,9 @@ trait MessageTrait
         $new->headers[$header] = $value;
         return $new;
     }
+    /**
+     * @return static
+     */
     public function withAddedHeader($header, $value) : \WPSentry\ScopedVendor\Psr\Http\Message\MessageInterface
     {
         $this->assertHeader($header);
@@ -80,6 +89,9 @@ trait MessageTrait
         }
         return $new;
     }
+    /**
+     * @return static
+     */
     public function withoutHeader($header) : \WPSentry\ScopedVendor\Psr\Http\Message\MessageInterface
     {
         $normalized = \strtolower($header);
@@ -98,6 +110,9 @@ trait MessageTrait
         }
         return $this->stream;
     }
+    /**
+     * @return static
+     */
     public function withBody(\WPSentry\ScopedVendor\Psr\Http\Message\StreamInterface $body) : \WPSentry\ScopedVendor\Psr\Http\Message\MessageInterface
     {
         if ($body === $this->stream) {

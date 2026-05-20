@@ -15,7 +15,7 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
     );
 
     public static $prefixLengthsPsr4 = array (
-        'W' => 
+        'W' =>
         array (
             'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\' => 56,
             'WPSentry\\ScopedVendor\\Psr\\Log\\' => 30,
@@ -25,7 +25,7 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
             'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\' => 38,
             'WPSentry\\ScopedVendor\\Composer\\Installers\\' => 42,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
@@ -34,44 +34,44 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
     );
 
     public static $prefixDirsPsr4 = array (
-        'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\' => 
+        'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'WPSentry\\ScopedVendor\\Psr\\Log\\' => 
+        'WPSentry\\ScopedVendor\\Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'WPSentry\\ScopedVendor\\Psr\\Http\\Message\\' => 
+        'WPSentry\\ScopedVendor\\Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'WPSentry\\ScopedVendor\\PackageVersions\\' => 
+        'WPSentry\\ScopedVendor\\PackageVersions\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/package-versions-deprecated/src/PackageVersions',
         ),
-        'WPSentry\\ScopedVendor\\Jean85\\' => 
+        'WPSentry\\ScopedVendor\\Jean85\\' =>
         array (
             0 => __DIR__ . '/..' . '/jean85/pretty-package-versions/src',
         ),
-        'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\' => 
+        'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'WPSentry\\ScopedVendor\\Composer\\Installers\\' => 
+        'WPSentry\\ScopedVendor\\Composer\\Installers\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
         ),
-        'Symfony\\Polyfill\\Php80\\' => 
+        'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'Symfony\\Polyfill\\Php73\\' => 
+        'Symfony\\Polyfill\\Php73\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
         ),
-        'Sentry\\' => 
+        'Sentry\\' =>
         array (
             0 => __DIR__ . '/..' . '/sentry/sentry/src',
         ),
@@ -82,6 +82,8 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'Sentry\\Agent\\Transport\\AgentClient' => __DIR__ . '/..' . '/sentry/sentry/src/Agent/Transport/AgentClient.php',
+        'Sentry\\Agent\\Transport\\AgentClientBuilder' => __DIR__ . '/..' . '/sentry/sentry/src/Agent/Transport/AgentClientBuilder.php',
         'Sentry\\Attributes\\Attribute' => __DIR__ . '/..' . '/sentry/sentry/src/Attributes/Attribute.php',
         'Sentry\\Attributes\\AttributeBag' => __DIR__ . '/..' . '/sentry/sentry/src/Attributes/AttributeBag.php',
         'Sentry\\Breadcrumb' => __DIR__ . '/..' . '/sentry/sentry/src/Breadcrumb.php',
@@ -90,6 +92,9 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\Client' => __DIR__ . '/..' . '/sentry/sentry/src/Client.php',
         'Sentry\\ClientBuilder' => __DIR__ . '/..' . '/sentry/sentry/src/ClientBuilder.php',
         'Sentry\\ClientInterface' => __DIR__ . '/..' . '/sentry/sentry/src/ClientInterface.php',
+        'Sentry\\ClientReport\\ClientReportAggregator' => __DIR__ . '/..' . '/sentry/sentry/src/ClientReport/ClientReportAggregator.php',
+        'Sentry\\ClientReport\\DiscardedEvent' => __DIR__ . '/..' . '/sentry/sentry/src/ClientReport/DiscardedEvent.php',
+        'Sentry\\ClientReport\\Reason' => __DIR__ . '/..' . '/sentry/sentry/src/ClientReport/Reason.php',
         'Sentry\\Context\\OsContext' => __DIR__ . '/..' . '/sentry/sentry/src/Context/OsContext.php',
         'Sentry\\Context\\RuntimeContext' => __DIR__ . '/..' . '/sentry/sentry/src/Context/RuntimeContext.php',
         'Sentry\\Dsn' => __DIR__ . '/..' . '/sentry/sentry/src/Dsn.php',
@@ -119,6 +124,7 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\Integration\\IntegrationInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/IntegrationInterface.php',
         'Sentry\\Integration\\IntegrationRegistry' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/IntegrationRegistry.php',
         'Sentry\\Integration\\ModulesIntegration' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/ModulesIntegration.php',
+        'Sentry\\Integration\\OTLPIntegration' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/OTLPIntegration.php',
         'Sentry\\Integration\\OptionAwareIntegrationInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/OptionAwareIntegrationInterface.php',
         'Sentry\\Integration\\RequestFetcher' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/RequestFetcher.php',
         'Sentry\\Integration\\RequestFetcherInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Integration/RequestFetcherInterface.php',
@@ -132,14 +138,21 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\Logs\\Logs' => __DIR__ . '/..' . '/sentry/sentry/src/Logs/Logs.php',
         'Sentry\\Logs\\LogsAggregator' => __DIR__ . '/..' . '/sentry/sentry/src/Logs/LogsAggregator.php',
         'Sentry\\Metrics\\Metrics' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Metrics.php',
-        'Sentry\\Metrics\\MetricsUnit' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/MetricsUnit.php',
+        'Sentry\\Metrics\\MetricsAggregator' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/MetricsAggregator.php',
+        'Sentry\\Metrics\\TraceMetrics' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/TraceMetrics.php',
+        'Sentry\\Metrics\\Types\\CounterMetric' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/CounterMetric.php',
+        'Sentry\\Metrics\\Types\\DistributionMetric' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/DistributionMetric.php',
+        'Sentry\\Metrics\\Types\\GaugeMetric' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/GaugeMetric.php',
+        'Sentry\\Metrics\\Types\\Metric' => __DIR__ . '/..' . '/sentry/sentry/src/Metrics/Types/Metric.php',
         'Sentry\\MonitorConfig' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorConfig.php',
         'Sentry\\MonitorSchedule' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorSchedule.php',
         'Sentry\\MonitorScheduleUnit' => __DIR__ . '/..' . '/sentry/sentry/src/MonitorScheduleUnit.php',
         'Sentry\\Monolog\\BreadcrumbHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/BreadcrumbHandler.php',
         'Sentry\\Monolog\\CompatibilityLogLevelTrait' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/CompatibilityLogLevelTrait.php',
         'Sentry\\Monolog\\CompatibilityProcessingHandlerTrait' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/CompatibilityProcessingHandlerTrait.php',
+        'Sentry\\Monolog\\ExceptionToSentryIssueHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/ExceptionToSentryIssueHandler.php',
         'Sentry\\Monolog\\Handler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/Handler.php',
+        'Sentry\\Monolog\\LogToSentryIssueHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/LogToSentryIssueHandler.php',
         'Sentry\\Monolog\\LogsHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/LogsHandler.php',
         'Sentry\\Options' => __DIR__ . '/..' . '/sentry/sentry/src/Options.php',
         'Sentry\\Profiling\\Profile' => __DIR__ . '/..' . '/sentry/sentry/src/Profiling/Profile.php',
@@ -147,9 +160,11 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\SentrySdk' => __DIR__ . '/..' . '/sentry/sentry/src/SentrySdk.php',
         'Sentry\\Serializer\\AbstractSerializer' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/AbstractSerializer.php',
         'Sentry\\Serializer\\EnvelopItems\\CheckInItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/CheckInItem.php',
+        'Sentry\\Serializer\\EnvelopItems\\ClientReportItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/ClientReportItem.php',
         'Sentry\\Serializer\\EnvelopItems\\EnvelopeItemInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/EnvelopeItemInterface.php',
         'Sentry\\Serializer\\EnvelopItems\\EventItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/EventItem.php',
         'Sentry\\Serializer\\EnvelopItems\\LogsItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/LogsItem.php',
+        'Sentry\\Serializer\\EnvelopItems\\MetricsItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/MetricsItem.php',
         'Sentry\\Serializer\\EnvelopItems\\ProfileItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/ProfileItem.php',
         'Sentry\\Serializer\\EnvelopItems\\TransactionItem' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/EnvelopItems/TransactionItem.php',
         'Sentry\\Serializer\\PayloadSerializer' => __DIR__ . '/..' . '/sentry/sentry/src/Serializer/PayloadSerializer.php',
@@ -169,6 +184,8 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\State\\HubAdapter' => __DIR__ . '/..' . '/sentry/sentry/src/State/HubAdapter.php',
         'Sentry\\State\\HubInterface' => __DIR__ . '/..' . '/sentry/sentry/src/State/HubInterface.php',
         'Sentry\\State\\Layer' => __DIR__ . '/..' . '/sentry/sentry/src/State/Layer.php',
+        'Sentry\\State\\RuntimeContext' => __DIR__ . '/..' . '/sentry/sentry/src/State/RuntimeContext.php',
+        'Sentry\\State\\RuntimeContextManager' => __DIR__ . '/..' . '/sentry/sentry/src/State/RuntimeContextManager.php',
         'Sentry\\State\\Scope' => __DIR__ . '/..' . '/sentry/sentry/src/State/Scope.php',
         'Sentry\\Tracing\\DynamicSamplingContext' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/DynamicSamplingContext.php',
         'Sentry\\Tracing\\GuzzleTracingMiddleware' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/GuzzleTracingMiddleware.php',
@@ -185,21 +202,24 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\Tracing\\TransactionContext' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/TransactionContext.php',
         'Sentry\\Tracing\\TransactionMetadata' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/TransactionMetadata.php',
         'Sentry\\Tracing\\TransactionSource' => __DIR__ . '/..' . '/sentry/sentry/src/Tracing/TransactionSource.php',
+        'Sentry\\Transport\\DataCategory' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/DataCategory.php',
         'Sentry\\Transport\\HttpTransport' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/HttpTransport.php',
         'Sentry\\Transport\\RateLimiter' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/RateLimiter.php',
         'Sentry\\Transport\\Result' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/Result.php',
         'Sentry\\Transport\\ResultStatus' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/ResultStatus.php',
         'Sentry\\Transport\\TransportInterface' => __DIR__ . '/..' . '/sentry/sentry/src/Transport/TransportInterface.php',
+        'Sentry\\Unit' => __DIR__ . '/..' . '/sentry/sentry/src/Unit.php',
         'Sentry\\UserDataBag' => __DIR__ . '/..' . '/sentry/sentry/src/UserDataBag.php',
         'Sentry\\Util\\Arr' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Arr.php',
-        'Sentry\\Util\\ClockMock' => __DIR__ . '/..' . '/sentry/sentry/src/Util/ClockMock.php',
         'Sentry\\Util\\Http' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Http.php',
         'Sentry\\Util\\JSON' => __DIR__ . '/..' . '/sentry/sentry/src/Util/JSON.php',
         'Sentry\\Util\\PHPConfiguration' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPConfiguration.php',
         'Sentry\\Util\\PHPVersion' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPVersion.php',
         'Sentry\\Util\\PrefixStripper' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PrefixStripper.php',
+        'Sentry\\Util\\RingBuffer' => __DIR__ . '/..' . '/sentry/sentry/src/Util/RingBuffer.php',
         'Sentry\\Util\\SentryUid' => __DIR__ . '/..' . '/sentry/sentry/src/Util/SentryUid.php',
         'Sentry\\Util\\Str' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Str.php',
+        'Sentry\\Util\\TelemetryStorage' => __DIR__ . '/..' . '/sentry/sentry/src/Util/TelemetryStorage.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
         'Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
@@ -379,10 +399,12 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\Options' => __DIR__ . '/..' . '/symfony/options-resolver/Options.php',
         'WPSentry\\ScopedVendor\\Symfony\\Component\\OptionsResolver\\OptionsResolver' => __DIR__ . '/..' . '/symfony/options-resolver/OptionsResolver.php',
         'WP_Sentry_Action_Scheduler_Integration' => __DIR__ . '/../..' . '/../src/plugins/class-wp-sentry-action-scheduler-integration.php',
+        'WP_Sentry_Active_Plugins_Integration' => __DIR__ . '/../..' . '/../src/integrations/class-wp-sentry-active-plugins-integration.php',
         'WP_Sentry_Admin_Page' => __DIR__ . '/../..' . '/../src/class-wp-sentry-admin-page.php',
         'WP_Sentry_Js_Tracker' => __DIR__ . '/../..' . '/../src/class-wp-sentry-js-tracker.php',
         'WP_Sentry_Php_Tracing' => __DIR__ . '/../..' . '/../src/tracing/class-wp-sentry-php-tracing.php',
         'WP_Sentry_Php_Tracker' => __DIR__ . '/../..' . '/../src/class-wp-sentry-php-tracker.php',
+        'WP_Sentry_Redis_Object_Cache_Integration' => __DIR__ . '/../..' . '/../src/plugins/class-wp-sentry-redis-object-cache-integration.php',
         'WP_Sentry_Resolve_Environment' => __DIR__ . '/../..' . '/../src/trait-wp-sentry-resolves-environment.php',
         'WP_Sentry_Resolve_User' => __DIR__ . '/../..' . '/../src/trait-wp-sentry-resolves-users.php',
         'WP_Sentry_Tracing_Feature' => __DIR__ . '/../..' . '/../src/tracing/features/class-wp-sentry-tracing-feature.php',

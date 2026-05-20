@@ -44,7 +44,14 @@ final class GuzzleTracingMiddleware
                     $hub->setSpan($childSpan);
                 }
                 if (self::shouldAttachTracingHeaders($client, $request)) {
-                    $request = $request->withHeader('sentry-trace', \Sentry\getTraceparent())->withHeader('baggage', \Sentry\getBaggage());
+                    $traceParent = \Sentry\getTraceparent();
+                    if ($traceParent !== '') {
+                        $request = $request->withHeader('sentry-trace', $traceParent);
+                    }
+                    $baggage = \Sentry\getBaggage();
+                    if ($baggage !== '') {
+                        $request = $request->withHeader('baggage', $baggage);
+                    }
                 }
                 $handlerPromiseCallback = static function ($responseOrException) use($hub, $spanAndBreadcrumbData, $childSpan, $parentSpan, $partialUri) {
                     if ($childSpan !== null) {
@@ -54,7 +61,6 @@ final class GuzzleTracingMiddleware
                         $hub->setSpan($parentSpan);
                     }
                     $response = null;
-                    /** @psalm-suppress UndefinedClass */
                     if ($responseOrException instanceof \WPSentry\ScopedVendor\Psr\Http\Message\ResponseInterface) {
                         $response = $responseOrException;
                     } elseif ($responseOrException instanceof \WPSentry\ScopedVendor\GuzzleHttp\Exception\RequestException) {

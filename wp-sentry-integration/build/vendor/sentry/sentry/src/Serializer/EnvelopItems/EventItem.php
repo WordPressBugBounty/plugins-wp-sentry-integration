@@ -94,7 +94,7 @@ class EventItem implements \Sentry\Serializer\EnvelopItems\EnvelopeItemInterface
     /**
      * @return array<string, mixed>
      *
-     * @psalm-return array{
+     * @phpstan-return array{
      *     type: string,
      *     value: string,
      *     stacktrace?: array{

@@ -254,9 +254,18 @@ class Hub implements \Sentry\State\HubInterface
         }
         $logger->info(\sprintf('Transaction [%s] was started and sampled, decided by %s.', (string) $transaction->getTraceId(), $sampleSource), ['context' => $context]);
         $transaction->initSpanRecorder();
-        $profilesSampleRate = $options->getProfilesSampleRate();
+        $profilesSampleSource = 'config:profiles_sample_rate';
+        $profilesSampler = $options->getProfilesSampler();
+        if ($profilesSampler !== null) {
+            $profilesSampleRate = $profilesSampler($samplingContext);
+            $profilesSampleSource = 'config:profiles_sampler';
+        } else {
+            $profilesSampleRate = $options->getProfilesSampleRate();
+        }
         if ($profilesSampleRate === null) {
-            $logger->info(\sprintf('Transaction [%s] is not profiling because `profiles_sample_rate` option is not set.', (string) $transaction->getTraceId()));
+            $logger->info(\sprintf('Transaction [%s] is not profiling because neither `profiles_sample_rate` nor `profiles_sampler` option is set.', (string) $transaction->getTraceId()));
+        } elseif (!$this->isValidSampleRate($profilesSampleRate)) {
+            $logger->warning(\sprintf('Transaction [%s] is not profiling because profile sample rate (decided by %s) is invalid.', (string) $transaction->getTraceId(), $profilesSampleSource));
         } elseif ($this->sample($profilesSampleRate)) {
             $logger->info(\sprintf('Transaction [%s] started profiling because it was sampled.', (string) $transaction->getTraceId()));
             $transaction->initProfiler()->start();

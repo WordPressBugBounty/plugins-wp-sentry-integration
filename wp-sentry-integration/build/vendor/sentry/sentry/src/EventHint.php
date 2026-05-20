@@ -35,7 +35,7 @@ final class EventHint
     /**
      * Create a EventHint instance from an array of values.
      *
-     * @psalm-param array{
+     * @phpstan-param array{
      *     exception?: \Throwable|null,
      *     mechanism?: ExceptionMechanism|null,
      *     stacktrace?: Stacktrace|null,

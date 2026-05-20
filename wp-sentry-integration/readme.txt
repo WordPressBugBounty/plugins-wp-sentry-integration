@@ -3,11 +3,11 @@ Contributors: stayallive
 Donate link: https://github.com/sponsors/stayallive
 Tags: sentry, log, logging, error-handler, error-monitoring
 Requires at least: 4.5
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.2.5
-Stable tag: 8.10.0
+Stable tag: 8.11.0
 License: MIT
-License URI: https://github.com/stayallive/wp-sentry/blob/v8.10.0/LICENSE.md
+License URI: https://github.com/stayallive/wp-sentry/blob/v8.11.0/LICENSE.md
 
 A (unofficial) WordPress plugin to report PHP errors and Browser (JavaScript) errors to Sentry.
 
@@ -16,18 +16,18 @@ This plugin can report PHP errors and Browser (JavaScript) errors to Sentry.
 
 It will auto detect authenticated users and add context where possible. All context/tags can be adjusted/expanded using filters.
 
-_For more information and documentation have a look at the [full documentation](https://github.com/stayallive/wp-sentry/tree/v8.10.0#readme)._
+_For more information and documentation have a look at the [full documentation](https://github.com/stayallive/wp-sentry/tree/v8.11.0#readme)._
 
 == Installation ==
 It is recommended to use the plugins interface in WordPress to install this plugin.
 
 If manual installation is required, please make sure that the plugin files are in a folder named "wp-sentry-integration" in the WordPress plugins folder, usually "wp-content/plugins".
 
-To start using the plugin first setup the [DSN](https://github.com/stayallive/wp-sentry/tree/v8.10.0#dsn) for either the PHP side or the Browser side or both.
+To start using the plugin first setup the [DSN](https://github.com/stayallive/wp-sentry/tree/v8.11.0#dsn) for either the PHP side or the Browser side or both.
 
 All other configuration options are optional but it's advised you read through them to see if any are applicable to you or are thing you'd like to configure.
 
-_You can find more information and the full documentation: [here](https://github.com/stayallive/wp-sentry/tree/v8.10.0#configuration). The following are the basics._
+_You can find more information and the full documentation: [here](https://github.com/stayallive/wp-sentry/tree/v8.11.0#configuration). The following are the basics._
 
 **Note:** When configuring constants in your `wp-config.php` do this **before** the `That's all, stop editing! Happy publishing.` line, otherwise they won't work!
 
@@ -52,9 +52,15 @@ To track Browser (JavaScript) errors add this snippet to your `wp-config.php` an
 
 **Note:** Do not set this constant to disable the Browser (JavaScript) tracker.
 
-_You can find more information and the full documentation: [here](https://github.com/stayallive/wp-sentry/tree/v8.10.0#configuration). The above are the basics._
+_You can find more information and the full documentation: [here](https://github.com/stayallive/wp-sentry/tree/v8.11.0#configuration). The above are the basics._
 
 == Changelog ==
+= 8.11.0 =
+
+* Update PHP SDK to version 4.27.0
+* Add active WordPress plugins and their versions to the Modules section of Sentry events ([#230](https://github.com/stayallive/wp-sentry/pull/230), thanks @oekeur)
+* Add [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) plugin integration, exceptions in cache operations are now automatically reported ([#237](https://github.com/stayallive/wp-sentry/pull/237), thanks @LordSimal)
+
 = 8.10.0 =
 
 * Update PHP SDK to version 4.18.1
@@ -567,7 +573,7 @@ If you are doing anything more than just have this plugin installed and a DSN de
 
 - PHP SDK: https://github.com/getsentry/sentry-php/blob/master/UPGRADE-3.0.md
 
-Becasue of the upgrade to the 3.x version of the PHP SDK this plugin now has the requirement that it runs on at least PHP 7.2, for older PHP versions stick to version 3.x.
+Because of the upgrade to the 3.x version of the PHP SDK this plugin now has the requirement that it runs on at least PHP 7.2, for older PHP versions stick to version 3.x.
 
 * Drop PHP 7.1 support and add PHP 8.0 support
 * Update PHP SDK to version 3.1.3
@@ -695,7 +701,7 @@ If you are doing anything more than just have this plugin installed and a DSN de
 - PHP SDK: https://github.com/getsentry/sentry-php/blob/master/UPGRADE-2.0.md
 - Browser SDK: https://github.com/getsentry/sentry-javascript/blob/master/MIGRATION.md#upgrading-from-4x-to-5x
 
-Becasue of the upgrade to the 2.x version of the PHP SDK this plugin now has the requirement that it runs on at least PHP 7.1, for older PHP versions stick to version 2.x.
+Because of the upgrade to the 2.x version of the PHP SDK this plugin now has the requirement that it runs on at least PHP 7.1, for older PHP versions stick to version 2.x.
 
 * Update PHP SDK to version 2.2.1
 * Update Sentry Browser to version 5.6.3
@@ -850,7 +856,7 @@ This version allows the usage of the new private key-less DSN introduced in Sent
 
 = 1.0.0 =
 
-* Initital release
+* Initial release
 
 == Contributors ==
 

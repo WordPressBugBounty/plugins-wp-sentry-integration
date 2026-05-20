@@ -4,13 +4,13 @@
  * Plugin Name:       Sentry for WordPress
  * Plugin URI:        https://github.com/stayallive/wp-sentry
  * Description:       A (unofficial) WordPress plugin to report PHP and JavaScript errors to Sentry.
- * Version:           8.10.0
+ * Version:           8.11.0
  * Requires at least: 4.4
  * Requires PHP:      7.2.5
  * Author:            Alex Bouma
  * Author URI:        https://alex.bouma.dev
  * License:           MIT
- * License URI:       https://github.com/stayallive/wp-sentry/blob/v8.10.0/LICENSE.md
+ * License URI:       https://github.com/stayallive/wp-sentry/blob/v8.11.0/LICENSE.md
  */
 
 // Exit if accessed directly
@@ -50,22 +50,95 @@ if ( ! defined( 'PHP_VERSION_ID' ) || PHP_VERSION_ID < 70200 ) {
 }
 
 // Resolve the sentry plugin file
-define( 'WP_SENTRY_PLUGIN_FILE', call_user_func( static function () {
-	global $wp_plugin_paths;
+if ( ! defined( 'WP_SENTRY_PLUGIN_FILE' ) ) {
+	define( 'WP_SENTRY_PLUGIN_FILE', call_user_func( static function () {
+		global $wp_plugin_paths;
 
-	$plugin_file = __FILE__;
+		$plugin_file      = __FILE__;
+		$plugin_real_file = realpath( $plugin_file ) ?: $plugin_file;
 
-	if ( ! empty( $wp_plugin_paths ) ) {
-		$wp_plugin_real_paths = array_flip( $wp_plugin_paths );
-		$plugin_path          = wp_normalize_path( dirname( $plugin_file ) );
+		$normalize_path = static function ( string $path ): string {
+			if ( function_exists( 'wp_normalize_path' ) ) {
+				return wp_normalize_path( $path );
+			}
 
-		if ( isset( $wp_plugin_real_paths[ $plugin_path ] ) ) {
-			$plugin_file = str_replace( $plugin_path, $wp_plugin_real_paths[ $plugin_path ], $plugin_file );
+			$path = str_replace( '\\', '/', $path );
+			$path = preg_replace( '|(?<=.)/+|', '/', $path );
+
+			if ( ':' === substr( $path, 1, 1 ) ) {
+				$path = ucfirst( $path );
+			}
+
+			return $path;
+		};
+
+		$plugin_real_dir = $normalize_path( dirname( $plugin_real_file ) );
+
+		if ( ! empty( $wp_plugin_paths ) ) {
+			$wp_plugin_real_paths = array_flip( $wp_plugin_paths );
+
+			if ( isset( $wp_plugin_real_paths[ $plugin_real_dir ] ) ) {
+				return str_replace( $plugin_real_dir, $wp_plugin_real_paths[ $plugin_real_dir ], $plugin_real_file );
+			}
 		}
-	}
 
-	return $plugin_file;
-} ) );
+		$plugin_dirs = [];
+
+		if ( defined( 'WP_PLUGIN_DIR' ) ) {
+			$plugin_dirs[] = WP_PLUGIN_DIR;
+		}
+
+		if ( defined( 'WPMU_PLUGIN_DIR' ) ) {
+			$plugin_dirs[] = WPMU_PLUGIN_DIR;
+		}
+
+		if ( defined( 'WP_CONTENT_DIR' ) ) {
+			$plugin_dirs[] = WP_CONTENT_DIR . '/plugins';
+			$plugin_dirs[] = WP_CONTENT_DIR . '/mu-plugins';
+		}
+
+		if ( defined( 'ABSPATH' ) ) {
+			$plugin_dirs[] = ABSPATH . 'wp-content/plugins';
+			$plugin_dirs[] = ABSPATH . 'wp-content/mu-plugins';
+		}
+
+		$plugin_dirs = array_unique( array_filter( array_map( $normalize_path, $plugin_dirs ) ) );
+
+		foreach ( $plugin_dirs as $plugin_dir ) {
+			if ( 0 === strpos( $plugin_real_dir . '/', rtrim( $plugin_dir, '/' ) . '/' ) ) {
+				return $plugin_file;
+			}
+		}
+
+		foreach ( $plugin_dirs as $plugin_dir ) {
+			foreach ( [ $plugin_dir . '/' . basename( $plugin_file ), $plugin_dir . '/*/' . basename( $plugin_file ) ] as $pattern ) {
+				foreach ( glob( $pattern ) ?: [] as $plugin_candidate ) {
+					$plugin_candidate_real_file = realpath( $plugin_candidate );
+
+					if (
+						false === $plugin_candidate_real_file
+						|| $normalize_path( $plugin_candidate_real_file ) !== $normalize_path( $plugin_real_file )
+					) {
+						continue;
+					}
+
+					if (
+						function_exists( 'wp_register_plugin_realpath' )
+						&& function_exists( 'wp_normalize_path' )
+						&& defined( 'WP_PLUGIN_DIR' )
+						&& defined( 'WPMU_PLUGIN_DIR' )
+					) {
+						wp_register_plugin_realpath( $plugin_candidate );
+					}
+
+					return $plugin_candidate;
+				}
+			}
+		}
+
+		return $plugin_file;
+	} ) );
+}
 
 // Load dependencies
 if ( ! class_exists( WP_Sentry_Version::class ) ) {
@@ -73,7 +146,7 @@ if ( ! class_exists( WP_Sentry_Version::class ) ) {
 		$scopedAutoloaderPath = __DIR__ . '/build/vendor/scoper-autoload.php'
 	);
 
-	// If ther is a scoped autoloader we use that version, otherwise we use the normal autoloader
+	// If there is a scoped autoloader we use that version, otherwise we use the normal autoloader
 	require_once $scopedAutoloaderExists
 		? $scopedAutoloaderPath
 		: __DIR__ . '/vendor/autoload.php';
@@ -123,6 +196,9 @@ if ( defined( 'WP_SENTRY_PHP_DSN' ) || defined( 'WP_SENTRY_DSN' ) || defined( 'W
 
 		// Action Scheduler integration
 		WP_Sentry_Action_Scheduler_Integration::get_instance();
+
+		// Redis Object Cache integration
+		WP_Sentry_Redis_Object_Cache_Integration::get_instance();
 	}
 }
 

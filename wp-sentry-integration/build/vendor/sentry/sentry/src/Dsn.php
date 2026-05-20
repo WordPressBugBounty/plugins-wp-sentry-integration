@@ -158,6 +158,13 @@ final class Dsn implements \Stringable
         return $this->getBaseEndpointUrl() . '/security/?sentry_key=' . $this->publicKey;
     }
     /**
+     * Returns the URL of the API for the OTLP traces endpoint.
+     */
+    public function getOtlpTracesEndpointUrl() : string
+    {
+        return $this->getBaseEndpointUrl() . '/integration/otlp/v1/traces/';
+    }
+    /**
      * @see https://www.php.net/manual/en/language.oop5.magic.php#object.tostring
      */
     public function __toString() : string

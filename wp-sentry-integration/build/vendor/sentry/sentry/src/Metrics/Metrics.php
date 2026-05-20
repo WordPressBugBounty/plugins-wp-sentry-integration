@@ -5,7 +5,12 @@ namespace Sentry\Metrics;
 
 use Sentry\EventId;
 use Sentry\Tracing\SpanContext;
+use Sentry\Unit;
 use function Sentry\trace;
+\class_alias(\Sentry\Unit::class, '\\Sentry\\Metrics\\MetricsUnit');
+/**
+ * @deprecated use TraceMetrics instead
+ */
 class Metrics
 {
     /**
@@ -22,25 +27,25 @@ class Metrics
     /**
      * @param array<string, string> $tags
      *
-     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+     * @deprecated Use TraceMetrics::count() instead. To be removed in 5.x.
      */
-    public function increment(string $key, float $value, ?\Sentry\Metrics\MetricsUnit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
+    public function increment(string $key, float $value, ?\Sentry\Unit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
     {
     }
     /**
      * @param array<string, string> $tags
      *
-     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+     * @deprecated Use TraceMetrics::distribution() instead. Metrics API is a no-op and will be removed in 5.x.
      */
-    public function distribution(string $key, float $value, ?\Sentry\Metrics\MetricsUnit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
+    public function distribution(string $key, float $value, ?\Sentry\Unit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
     {
     }
     /**
      * @param array<string, string> $tags
      *
-     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+     * @deprecated Use TraceMetrics::gauge() instead. To be removed in 5.x.
      */
-    public function gauge(string $key, float $value, ?\Sentry\Metrics\MetricsUnit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
+    public function gauge(string $key, float $value, ?\Sentry\Unit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
     {
     }
     /**
@@ -49,7 +54,7 @@ class Metrics
      *
      * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
-    public function set(string $key, $value, ?\Sentry\Metrics\MetricsUnit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
+    public function set(string $key, $value, ?\Sentry\Unit $unit = null, array $tags = [], ?int $timestamp = null, int $stackLevel = 0) : void
     {
     }
     /**
@@ -64,7 +69,7 @@ class Metrics
      */
     public function timing(string $key, callable $callback, array $tags = [], int $stackLevel = 0)
     {
-        return \Sentry\trace(function () use($callback) {
+        return \Sentry\trace(static function () use($callback) {
             return $callback();
         }, \Sentry\Tracing\SpanContext::make()->setOp('metric.timing')->setOrigin('auto.measure.metrics.timing')->setDescription($key));
     }

@@ -112,7 +112,7 @@ final class IntegrationRegistry
             return [];
         }
         $integrations = [new \Sentry\Integration\RequestIntegration(), new \Sentry\Integration\TransactionIntegration(), new \Sentry\Integration\FrameContextifierIntegration(), new \Sentry\Integration\EnvironmentIntegration(), new \Sentry\Integration\ModulesIntegration()];
-        if ($options->getDsn() !== null) {
+        if ($options->getDsn() !== null || $options->isSpotlightEnabled()) {
             \array_unshift($integrations, new \Sentry\Integration\ExceptionListenerIntegration(), new \Sentry\Integration\ErrorListenerIntegration(), new \Sentry\Integration\FatalErrorListenerIntegration());
         }
         return $integrations;

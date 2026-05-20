@@ -4,9 +4,9 @@ declare (strict_types=1);
 namespace Sentry\Tracing;
 
 use Sentry\EventId;
-use Sentry\Metrics\MetricsUnit;
 use Sentry\SentrySdk;
 use Sentry\State\Scope;
+use Sentry\Unit;
 /**
  * This class stores all the information about a span.
  *
@@ -258,7 +258,7 @@ class Span
      */
     public function setHttpStatus(int $statusCode)
     {
-        \Sentry\SentrySdk::getCurrentHub()->configureScope(function (\Sentry\State\Scope $scope) use($statusCode) {
+        \Sentry\SentrySdk::getCurrentHub()->configureScope(static function (\Sentry\State\Scope $scope) use($statusCode) {
             $scope->setContext('response', ['status_code' => $statusCode]);
         });
         $status = \Sentry\Tracing\SpanStatus::createFromHttpStatusCode($statusCode);
@@ -363,7 +363,7 @@ class Span
      *
      * @return array<string, mixed>
      *
-     * @psalm-return array{
+     * @phpstan-return array{
      *     data?: array<string, mixed>,
      *     description?: string,
      *     op?: string,
@@ -459,7 +459,7 @@ class Span
     /**
      * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
      */
-    public function setMetricsSummary(string $type, string $key, $value, \Sentry\Metrics\MetricsUnit $unit, array $tags) : void
+    public function setMetricsSummary(string $type, string $key, $value, \Sentry\Unit $unit, array $tags) : void
     {
     }
     /**

@@ -97,7 +97,7 @@ final class FrameContextifierIntegration implements \Sentry\Integration\Integrat
      *
      * @return array<string, mixed>
      *
-     * @psalm-return array{
+     * @phpstan-return array{
      *     pre_context: string[],
      *     context_line: string|null,
      *     post_context: string[]

@@ -22,5 +22,10 @@ if (!function_exists('trigger_deprecation')) {
         return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
     }
 }
+if (!function_exists('curl_share_init_persistent')) {
+    function curl_share_init_persistent() {
+        return \WPSentry\ScopedVendor\curl_share_init_persistent(...func_get_args());
+    }
+}
 
 return $loader;

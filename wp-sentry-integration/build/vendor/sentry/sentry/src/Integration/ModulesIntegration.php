@@ -60,7 +60,9 @@ final class ModulesIntegration implements \Sentry\Integration\IntegrationInterfa
         }
         if (\class_exists(\WPSentry\ScopedVendor\PackageVersions\Versions::class)) {
             // BC layer for Composer 1, using a transient dependency
-            return \array_keys(\WPSentry\ScopedVendor\PackageVersions\Versions::VERSIONS);
+            /** @var string[] $packages */
+            $packages = \array_keys(\WPSentry\ScopedVendor\PackageVersions\Versions::VERSIONS);
+            return $packages;
         }
         // this should not happen
         return ['sentry/sentry'];

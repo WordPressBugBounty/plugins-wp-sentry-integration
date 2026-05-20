@@ -7,8 +7,10 @@ use Sentry\Event;
 use Sentry\EventType;
 use Sentry\Options;
 use Sentry\Serializer\EnvelopItems\CheckInItem;
+use Sentry\Serializer\EnvelopItems\ClientReportItem;
 use Sentry\Serializer\EnvelopItems\EventItem;
 use Sentry\Serializer\EnvelopItems\LogsItem;
+use Sentry\Serializer\EnvelopItems\MetricsItem;
 use Sentry\Serializer\EnvelopItems\ProfileItem;
 use Sentry\Serializer\EnvelopItems\TransactionItem;
 use Sentry\Tracing\DynamicSamplingContext;
@@ -34,13 +36,19 @@ final class PayloadSerializer implements \Sentry\Serializer\PayloadSerializerInt
      */
     public function serialize(\Sentry\Event $event) : string
     {
-        // @see https://develop.sentry.dev/sdk/envelopes/#envelope-headers
-        $envelopeHeader = ['event_id' => (string) $event->getId(), 'sent_at' => \gmdate('Y-m-d\\TH:i:s\\Z'), 'dsn' => (string) $this->options->getDsn(), 'sdk' => $event->getSdkPayload()];
-        $dynamicSamplingContext = $event->getSdkMetadata('dynamic_sampling_context');
-        if ($dynamicSamplingContext instanceof \Sentry\Tracing\DynamicSamplingContext) {
-            $entries = $dynamicSamplingContext->getEntries();
-            if (!empty($entries)) {
-                $envelopeHeader['trace'] = $entries;
+        $envelopeHeader = null;
+        if ($event->getType() !== \Sentry\EventType::clientReport()) {
+            // @see https://develop.sentry.dev/sdk/envelopes/#envelope-headers
+            $envelopeHeader = ['sent_at' => \gmdate('Y-m-d\\TH:i:s\\Z'), 'dsn' => (string) $this->options->getDsn(), 'sdk' => $event->getSdkPayload()];
+            if ($event->getType()->requiresEventId()) {
+                $envelopeHeader['event_id'] = (string) $event->getId();
+            }
+            $dynamicSamplingContext = $event->getSdkMetadata('dynamic_sampling_context');
+            if ($dynamicSamplingContext instanceof \Sentry\Tracing\DynamicSamplingContext) {
+                $entries = $dynamicSamplingContext->getEntries();
+                if (!empty($entries)) {
+                    $envelopeHeader['trace'] = $entries;
+                }
             }
         }
         $items = [];
@@ -60,6 +68,15 @@ final class PayloadSerializer implements \Sentry\Serializer\PayloadSerializerInt
             case \Sentry\EventType::logs():
                 $items[] = \Sentry\Serializer\EnvelopItems\LogsItem::toEnvelopeItem($event);
                 break;
+            case \Sentry\EventType::metrics():
+                $items[] = \Sentry\Serializer\EnvelopItems\MetricsItem::toEnvelopeItem($event);
+                break;
+            case \Sentry\EventType::clientReport():
+                $items[] = \Sentry\Serializer\EnvelopItems\ClientReportItem::toEnvelopeItem($event);
+                break;
+        }
+        if ($envelopeHeader === null) {
+            return \sprintf("{}\n%s", \implode("\n", \array_filter($items)));
         }
         return \sprintf("%s\n%s", \Sentry\Util\JSON::encode($envelopeHeader), \implode("\n", \array_filter($items)));
     }

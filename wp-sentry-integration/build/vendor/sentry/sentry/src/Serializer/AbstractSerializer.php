@@ -115,6 +115,9 @@ abstract class AbstractSerializer
                 if ($value instanceof \DateTimeInterface) {
                     return $this->formatDate($value);
                 }
+                if ($value instanceof \WPSentry\ScopedVendor\UnitEnum) {
+                    return $this->serializeValue($value);
+                }
                 if ($this->serializeAllObjects || $value instanceof \stdClass) {
                     return $this->serializeObject($value, $_depth);
                 }
@@ -207,7 +210,11 @@ abstract class AbstractSerializer
         }
         if ($value instanceof \WPSentry\ScopedVendor\UnitEnum) {
             $reflection = new \ReflectionObject($value);
-            return 'Enum ' . $reflection->getName() . '::' . $value->name;
+            $enumValue = $reflection->getName() . '::' . $value->name;
+            if ($value instanceof \WPSentry\ScopedVendor\BackedEnum) {
+                return 'Enum ' . $enumValue . '(' . $value->value . ')';
+            }
+            return 'Enum ' . $enumValue;
         }
         if (\is_object($value)) {
             $reflection = new \ReflectionObject($value);

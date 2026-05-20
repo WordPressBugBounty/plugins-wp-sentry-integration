@@ -3,9 +3,11 @@
 declare (strict_types=1);
 namespace Sentry;
 
+use Sentry\ClientReport\DiscardedEvent;
 use Sentry\Context\OsContext;
 use Sentry\Context\RuntimeContext;
 use Sentry\Logs\Log;
+use Sentry\Metrics\Types\Metric;
 use Sentry\Profiling\Profile;
 use Sentry\Tracing\Span;
 /**
@@ -60,6 +62,10 @@ final class Event
      * @var Log[]
      */
     private $logs = [];
+    /**
+     * @var Metric[]
+     */
+    private $metrics = [];
     /**
      * @var string|null The name of the server (e.g. the host name)
      */
@@ -163,6 +169,10 @@ final class Event
      * @var Profile|null The profile data
      */
     private $profile;
+    /**
+     * @var DiscardedEvent[]
+     */
+    private $clientReports = [];
     private function __construct(?\Sentry\EventId $eventId, \Sentry\EventType $eventType)
     {
         $this->id = $eventId ?? \Sentry\EventId::generate();
@@ -195,12 +205,13 @@ final class Event
     {
         return new self($eventId, \Sentry\EventType::logs());
     }
-    /**
-     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
-     */
     public static function createMetrics(?\Sentry\EventId $eventId = null) : self
     {
         return new self($eventId, \Sentry\EventType::metrics());
+    }
+    public static function createClientReport(?\Sentry\EventId $eventId = null) : self
+    {
+        return new self($eventId, \Sentry\EventType::clientReport());
     }
     /**
      * Gets the ID of this event.
@@ -367,17 +378,18 @@ final class Event
         return $this;
     }
     /**
-     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+     * @return Metric[]
      */
     public function getMetrics() : array
     {
-        return [];
+        return $this->metrics;
     }
     /**
-     * @deprecated Metrics are no longer supported. Metrics API is a no-op and will be removed in 5.x.
+     * @param Metric[] $metrics
      */
     public function setMetrics(array $metrics) : self
     {
+        $this->metrics = $metrics;
         return $this;
     }
     /**
@@ -751,13 +763,13 @@ final class Event
     /**
      * Gets the SDK metadata.
      *
-     * @psalm-template T of string|null
+     * @phpstan-template T of string|null
      *
-     * @psalm-param T $name
+     * @phpstan-param T $name
      *
      * @return mixed
      *
-     * @psalm-return (T is string ? mixed : array<string, mixed>|null)
+     * @phpstan-return (T is string ? mixed : array<string, mixed>|null)
      */
     public function getSdkMetadata(?string $name = null)
     {
@@ -818,5 +830,20 @@ final class Event
             return $traceId;
         }
         return null;
+    }
+    /**
+     * @param DiscardedEvent[] $clientReports
+     */
+    public function setClientReports(array $clientReports) : self
+    {
+        $this->clientReports = $clientReports;
+        return $this;
+    }
+    /**
+     * @return DiscardedEvent[]
+     */
+    public function getClientReports() : array
+    {
+        return $this->clientReports;
     }
 }

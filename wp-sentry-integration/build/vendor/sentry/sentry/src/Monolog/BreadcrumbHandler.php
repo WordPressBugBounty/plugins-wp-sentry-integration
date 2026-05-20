@@ -37,8 +37,6 @@ final class BreadcrumbHandler extends \Monolog\Handler\AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
     /**
-     * @psalm-suppress MoreSpecificImplementedParamType
-     *
      * @param LogRecord|array{
      *      level: int,
      *      channel: string,
@@ -49,7 +47,9 @@ final class BreadcrumbHandler extends \Monolog\Handler\AbstractProcessingHandler
      */
     protected function write($record) : void
     {
-        $breadcrumb = new \Sentry\Breadcrumb($this->getBreadcrumbLevel($record['level']), $this->getBreadcrumbType($record['level']), $record['channel'], $record['message'], ($record['context'] ?? []) + ($record['extra'] ?? []), $record['datetime']->getTimestamp());
+        $datetime = $record['datetime'] ?? null;
+        $timestamp = $datetime instanceof \DateTimeInterface ? $datetime->getTimestamp() + (int) $datetime->format('u') / 1000000 : null;
+        $breadcrumb = new \Sentry\Breadcrumb($this->getBreadcrumbLevel($record['level']), $this->getBreadcrumbType($record['level']), $record['channel'], $record['message'], ($record['context'] ?? []) + ($record['extra'] ?? []), $timestamp);
         $this->hub->addBreadcrumb($breadcrumb);
     }
     /**

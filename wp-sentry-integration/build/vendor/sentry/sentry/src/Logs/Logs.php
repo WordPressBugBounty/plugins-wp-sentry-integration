@@ -4,19 +4,15 @@ declare (strict_types=1);
 namespace Sentry\Logs;
 
 use Sentry\EventId;
+use Sentry\SentrySdk;
 class Logs
 {
     /**
      * @var self|null
      */
     private static $instance;
-    /**
-     * @var LogsAggregator
-     */
-    private $aggregator;
     private function __construct()
     {
-        $this->aggregator = new \Sentry\Logs\LogsAggregator();
     }
     public static function getInstance() : self
     {
@@ -32,7 +28,7 @@ class Logs
      */
     public function trace(string $message, array $values = [], array $attributes = []) : void
     {
-        $this->aggregator->add(\Sentry\Logs\LogLevel::trace(), $message, $values, $attributes);
+        $this->aggregator()->add(\Sentry\Logs\LogLevel::trace(), $message, $values, $attributes);
     }
     /**
      * @param string                       $message    see sprintf for a description of format
@@ -41,7 +37,7 @@ class Logs
      */
     public function debug(string $message, array $values = [], array $attributes = []) : void
     {
-        $this->aggregator->add(\Sentry\Logs\LogLevel::debug(), $message, $values, $attributes);
+        $this->aggregator()->add(\Sentry\Logs\LogLevel::debug(), $message, $values, $attributes);
     }
     /**
      * @param string                       $message    see sprintf for a description of format
@@ -50,7 +46,7 @@ class Logs
      */
     public function info(string $message, array $values = [], array $attributes = []) : void
     {
-        $this->aggregator->add(\Sentry\Logs\LogLevel::info(), $message, $values, $attributes);
+        $this->aggregator()->add(\Sentry\Logs\LogLevel::info(), $message, $values, $attributes);
     }
     /**
      * @param string                       $message    see sprintf for a description of format
@@ -59,7 +55,7 @@ class Logs
      */
     public function warn(string $message, array $values = [], array $attributes = []) : void
     {
-        $this->aggregator->add(\Sentry\Logs\LogLevel::warn(), $message, $values, $attributes);
+        $this->aggregator()->add(\Sentry\Logs\LogLevel::warn(), $message, $values, $attributes);
     }
     /**
      * @param string                       $message    see sprintf for a description of format
@@ -68,7 +64,7 @@ class Logs
      */
     public function error(string $message, array $values = [], array $attributes = []) : void
     {
-        $this->aggregator->add(\Sentry\Logs\LogLevel::error(), $message, $values, $attributes);
+        $this->aggregator()->add(\Sentry\Logs\LogLevel::error(), $message, $values, $attributes);
     }
     /**
      * @param string                       $message    see sprintf for a description of format
@@ -77,14 +73,14 @@ class Logs
      */
     public function fatal(string $message, array $values = [], array $attributes = []) : void
     {
-        $this->aggregator->add(\Sentry\Logs\LogLevel::fatal(), $message, $values, $attributes);
+        $this->aggregator()->add(\Sentry\Logs\LogLevel::fatal(), $message, $values, $attributes);
     }
     /**
      * Flush the captured logs and send them to Sentry.
      */
     public function flush() : ?\Sentry\EventId
     {
-        return $this->aggregator->flush();
+        return $this->aggregator()->flush();
     }
     /**
      * Get the logs aggregator.
@@ -93,6 +89,6 @@ class Logs
      */
     public function aggregator() : \Sentry\Logs\LogsAggregator
     {
-        return $this->aggregator;
+        return \Sentry\SentrySdk::getCurrentRuntimeContext()->getLogsAggregator();
     }
 }
