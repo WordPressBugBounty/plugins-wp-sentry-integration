@@ -5,6 +5,7 @@ namespace Sentry\State;
 
 use WPSentry\ScopedVendor\Psr\Log\LoggerInterface;
 use WPSentry\ScopedVendor\Psr\Log\NullLogger;
+use Sentry\ErrorHandler;
 use Sentry\Tracing\PropagationContext;
 /**
  * Manages runtime-local SDK state across different execution models.
@@ -91,6 +92,7 @@ final class RuntimeContextManager
             // Nested start calls for the same execution key should be a no-op.
             return;
         }
+        \Sentry\ErrorHandler::resetFatalErrorHandlerState();
         $this->createContextForExecutionContextKey($executionContextKey);
     }
     /**

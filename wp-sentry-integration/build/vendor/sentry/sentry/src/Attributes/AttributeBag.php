@@ -23,6 +23,15 @@ class AttributeBag
         }
         return $this;
     }
+    /**
+     * @param mixed $value
+     */
+    public function setUnlessNull(string $key, $value) : void
+    {
+        if ($value !== null) {
+            self::set($key, $value);
+        }
+    }
     public function get(string $key) : ?\Sentry\Attributes\Attribute
     {
         return $this->attributes[$key] ?? null;

@@ -5,24 +5,21 @@ namespace Sentry\Util;
 
 /**
  * Ring buffer implementation with a fixed size that will overwrite the oldest elements when at capacity.
- * Backed by `SplFixedArray`, which means that it will always have a constant memory footprint while
- * also avoiding dynamically resizing.
- * This is NOT a copy-on-write data structure. Extra cloning is necessary to achieve this.
+ * Backed by a regular PHP array that will dynamically grow in size until capacity is reached.
  *
  * `push` and `peek` operations are O(1).
  *
- * `toArray` and `drain` are O(n) where n is the count of the buffer.
- *
- * This implementation will never duplicate arrays unless `toArray` or `drain` is called.
+ * `toArray` and `drain` are O(n) where n is the count of the buffer. As long as no element was
+ * overwritten or shifted, both are O(1) because the backing array can be returned as-is
  *
  * @template T
  */
 class RingBuffer implements \Countable
 {
     /**
-     * @var \SplFixedArray<T|null>
+     * @var array<int, T|null>
      */
-    private $buffer;
+    private $buffer = [];
     /**
      * @var int
      */
@@ -54,7 +51,6 @@ class RingBuffer implements \Countable
             throw new \RuntimeException('RingBuffer capacity must be greater than 0');
         }
         $this->capacity = $capacity;
-        $this->buffer = new \SplFixedArray($capacity);
     }
     /**
      * Returns how many elements can be stored in the buffer before it starts overwriting
@@ -97,7 +93,7 @@ class RingBuffer implements \Countable
     {
         $this->buffer[$this->tail] = $value;
         $this->tail = ($this->tail + 1) % $this->capacity;
-        if ($this->isFull()) {
+        if ($this->count === $this->capacity) {
             $this->head = ($this->head + 1) % $this->capacity;
         } else {
             ++$this->count;
@@ -111,7 +107,7 @@ class RingBuffer implements \Countable
      */
     public function shift()
     {
-        if ($this->isEmpty()) {
+        if ($this->count === 0) {
             return null;
         }
         $value = $this->buffer[$this->head];
@@ -128,11 +124,10 @@ class RingBuffer implements \Countable
      */
     public function peekBack()
     {
-        if ($this->isEmpty()) {
+        if ($this->count === 0) {
             return null;
         }
-        $idx = ($this->tail - 1 + $this->capacity) % $this->capacity;
-        return $this->buffer[$idx];
+        return $this->buffer[($this->tail - 1 + $this->capacity) % $this->capacity];
     }
     /**
      * Returns the first element in the buffer without removing it.
@@ -142,7 +137,7 @@ class RingBuffer implements \Countable
      */
     public function peekFront()
     {
-        if ($this->isEmpty()) {
+        if ($this->count === 0) {
             return null;
         }
         return $this->buffer[$this->head];
@@ -152,9 +147,7 @@ class RingBuffer implements \Countable
      */
     public function clear() : void
     {
-        for ($i = 0; $i < $this->count; ++$i) {
-            $this->buffer[($this->head + $i) % $this->capacity] = null;
-        }
+        $this->buffer = [];
         $this->count = 0;
         $this->head = 0;
         $this->tail = 0;
@@ -167,13 +160,22 @@ class RingBuffer implements \Countable
      */
     public function toArray() : array
     {
-        $result = [];
-        for ($i = 0; $i < $this->count; ++$i) {
-            $value = $this->buffer[($this->head + $i) % $this->capacity];
-            /** @var T $value */
-            $result[] = $value;
+        if ($this->count === 0) {
+            return [];
         }
-        return $result;
+        // When we have never overwritten an element, or we did a full revolution, we can
+        // just return the buffer as-is because it has the correct order
+        if ($this->head === 0 && $this->count === \count($this->buffer)) {
+            /** @var array<T> */
+            return $this->buffer;
+        }
+        // If the data doesn't wrap around, we can just return the slice from head to count
+        if ($this->head + $this->count <= $this->capacity) {
+            /** @var array<T> */
+            return \array_slice($this->buffer, $this->head, $this->count);
+        }
+        /** @var array<T> */
+        return \array_merge(\array_slice($this->buffer, $this->head), \array_slice($this->buffer, 0, $this->tail));
     }
     /**
      * Returns the content of the buffer and clears all elements that it contains in the process.

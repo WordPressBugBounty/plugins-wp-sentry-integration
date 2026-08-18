@@ -12,6 +12,11 @@ if (!class_exists('ComposerAutoloaderInit7d2059a8ea77f2dd8d515bcf9b17ef7c', fals
 
 // Functions whitelisting. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#functions-whitelisting
+if (!function_exists('curl_share_init_persistent')) {
+    function curl_share_init_persistent() {
+        return \WPSentry\ScopedVendor\curl_share_init_persistent(...func_get_args());
+    }
+}
 if (!function_exists('includeIfExists')) {
     function includeIfExists() {
         return \WPSentry\ScopedVendor\includeIfExists(...func_get_args());
@@ -20,11 +25,6 @@ if (!function_exists('includeIfExists')) {
 if (!function_exists('trigger_deprecation')) {
     function trigger_deprecation() {
         return \WPSentry\ScopedVendor\trigger_deprecation(...func_get_args());
-    }
-}
-if (!function_exists('curl_share_init_persistent')) {
-    function curl_share_init_persistent() {
-        return \WPSentry\ScopedVendor\curl_share_init_persistent(...func_get_args());
     }
 }
 

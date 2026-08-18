@@ -7,10 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
 {
     public static $files = array (
-        'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'wp-sentry-6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        'wp-sentry-0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'wp-sentry-a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        'wp-sentry-7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'wp-sentry-0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'fb4ca2d97fe7ba6af750497425204e70' => __DIR__ . '/..' . '/sentry/sentry/src/functions.php',
     );
 
@@ -154,7 +154,9 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\Monolog\\Handler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/Handler.php',
         'Sentry\\Monolog\\LogToSentryIssueHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/LogToSentryIssueHandler.php',
         'Sentry\\Monolog\\LogsHandler' => __DIR__ . '/..' . '/sentry/sentry/src/Monolog/LogsHandler.php',
+        'Sentry\\OpenTelemetry\\Propagation\\SentryPropagator' => __DIR__ . '/..' . '/sentry/sentry/src/OpenTelemetry/Propagation/SentryPropagator.php',
         'Sentry\\Options' => __DIR__ . '/..' . '/sentry/sentry/src/Options.php',
+        'Sentry\\OptionsResolver' => __DIR__ . '/..' . '/sentry/sentry/src/OptionsResolver.php',
         'Sentry\\Profiling\\Profile' => __DIR__ . '/..' . '/sentry/sentry/src/Profiling/Profile.php',
         'Sentry\\Profiling\\Profiler' => __DIR__ . '/..' . '/sentry/sentry/src/Profiling/Profiler.php',
         'Sentry\\SentrySdk' => __DIR__ . '/..' . '/sentry/sentry/src/SentrySdk.php',
@@ -211,6 +213,7 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'Sentry\\Unit' => __DIR__ . '/..' . '/sentry/sentry/src/Unit.php',
         'Sentry\\UserDataBag' => __DIR__ . '/..' . '/sentry/sentry/src/UserDataBag.php',
         'Sentry\\Util\\Arr' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Arr.php',
+        'Sentry\\Util\\CodeLocationResolver' => __DIR__ . '/..' . '/sentry/sentry/src/Util/CodeLocationResolver.php',
         'Sentry\\Util\\Http' => __DIR__ . '/..' . '/sentry/sentry/src/Util/Http.php',
         'Sentry\\Util\\JSON' => __DIR__ . '/..' . '/sentry/sentry/src/Util/JSON.php',
         'Sentry\\Util\\PHPConfiguration' => __DIR__ . '/..' . '/sentry/sentry/src/Util/PHPConfiguration.php',
@@ -345,6 +348,7 @@ class ComposerStaticInit7d2059a8ea77f2dd8d515bcf9b17ef7c
         'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\Query' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Query.php',
         'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\Request' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Request.php',
         'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\Response' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Response.php',
+        'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\Rfc3986' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Rfc3986.php',
         'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\Rfc7230' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Rfc7230.php',
         'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\ServerRequest' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/ServerRequest.php',
         'WPSentry\\ScopedVendor\\GuzzleHttp\\Psr7\\Stream' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Stream.php',

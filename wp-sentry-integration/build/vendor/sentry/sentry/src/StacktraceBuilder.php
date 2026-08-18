@@ -52,12 +52,12 @@ final class StacktraceBuilder
     {
         $frames = [];
         foreach ($backtrace as $backtraceFrame) {
-            \array_unshift($frames, $this->frameBuilder->buildFromBacktraceFrame($file, $line, $backtraceFrame));
+            $frames[] = $this->frameBuilder->buildFromBacktraceFrame($file, $line, $backtraceFrame);
             $file = $backtraceFrame['file'] ?? \Sentry\Frame::INTERNAL_FRAME_FILENAME;
             $line = $backtraceFrame['line'] ?? 0;
         }
         // Add a final stackframe for the first method ever of this stacktrace
-        \array_unshift($frames, $this->frameBuilder->buildFromBacktraceFrame($file, $line, []));
-        return new \Sentry\Stacktrace($frames);
+        $frames[] = $this->frameBuilder->buildFromBacktraceFrame($file, $line, []);
+        return new \Sentry\Stacktrace(\array_reverse($frames));
     }
 }

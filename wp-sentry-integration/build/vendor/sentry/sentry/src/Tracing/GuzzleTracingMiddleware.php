@@ -63,7 +63,7 @@ final class GuzzleTracingMiddleware
                     $response = null;
                     if ($responseOrException instanceof \WPSentry\ScopedVendor\Psr\Http\Message\ResponseInterface) {
                         $response = $responseOrException;
-                    } elseif ($responseOrException instanceof \WPSentry\ScopedVendor\GuzzleHttp\Exception\RequestException) {
+                    } elseif ($responseOrException instanceof \WPSentry\ScopedVendor\GuzzleHttp\Exception\RequestException && \method_exists($responseOrException, 'getResponse')) {
                         $response = $responseOrException->getResponse();
                     }
                     $breadcrumbLevel = \Sentry\Breadcrumb::LEVEL_INFO;

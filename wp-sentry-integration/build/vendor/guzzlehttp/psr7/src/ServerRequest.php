@@ -129,8 +129,8 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
      */
     public static function fromGlobals() : \WPSentry\ScopedVendor\Psr\Http\Message\ServerRequestInterface
     {
-        $method = self::getServerParam('REQUEST_METHOD') ?? 'GET';
-        $headers = \getallheaders();
+        $method = \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Utils::asciiToUpper(self::getServerParam('REQUEST_METHOD') ?? 'GET');
+        $headers = self::removeInvalidHostHeader(self::getAllHeaders());
         $uri = self::getUriFromGlobals();
         $body = new \WPSentry\ScopedVendor\GuzzleHttp\Psr7\CachingStream(new \WPSentry\ScopedVendor\GuzzleHttp\Psr7\LazyOpenStream('php://input', 'r+'));
         $serverProtocol = self::getServerParam('SERVER_PROTOCOL');
@@ -138,23 +138,55 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
         $serverRequest = new \WPSentry\ScopedVendor\GuzzleHttp\Psr7\ServerRequest($method, $uri, $headers, $body, $protocol, $_SERVER);
         return $serverRequest->withCookieParams($_COOKIE)->withQueryParams($_GET)->withParsedBody($_POST)->withUploadedFiles(self::normalizeFiles($_FILES));
     }
+    /**
+     * @return array<array-key, string>
+     */
+    private static function getAllHeaders() : array
+    {
+        return self::normalizeHeaderValues(\getallheaders());
+    }
+    /**
+     * @param array<array-key, mixed> $headers
+     *
+     * @return array<array-key, string>
+     */
+    private static function normalizeHeaderValues(array $headers) : array
+    {
+        $normalized = [];
+        foreach ($headers as $name => $value) {
+            if (\is_scalar($value) || \is_object($value) && \method_exists($value, '__toString')) {
+                $normalized[$name] = (string) $value;
+            }
+        }
+        return $normalized;
+    }
     private static function getServerParam(string $key) : ?string
     {
         return isset($_SERVER[$key]) && \is_string($_SERVER[$key]) ? $_SERVER[$key] : null;
+    }
+    /**
+     * @param array<array-key, string> $headers
+     *
+     * @return array<array-key, string>
+     */
+    private static function removeInvalidHostHeader(array $headers) : array
+    {
+        foreach ($headers as $name => $value) {
+            if (\WPSentry\ScopedVendor\GuzzleHttp\Psr7\Utils::asciiToLower((string) $name) !== 'host') {
+                continue;
+            }
+            if (\WPSentry\ScopedVendor\GuzzleHttp\Psr7\Rfc7230::parseHostHeader($value) === null) {
+                unset($headers[$name]);
+            }
+        }
+        return $headers;
     }
     /**
      * @return array{0: string|null, 1: int|null}
      */
     private static function extractHostAndPortFromAuthority(string $authority) : array
     {
-        $uri = 'http://' . $authority;
-        $parts = \parse_url($uri);
-        if (!\is_array($parts)) {
-            return [null, null];
-        }
-        $host = $parts['host'] ?? null;
-        $port = $parts['port'] ?? null;
-        return [$host, $port];
+        return \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Rfc7230::parseHostHeader($authority) ?? [null, null];
     }
     /**
      * Get a Uri populated with values from $_SERVER.
@@ -181,7 +213,7 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
             $uri = $uri->withHost($serverAddr);
         }
         $serverPort = self::getServerParam('SERVER_PORT');
-        if (!$hasPort && $serverPort !== null && \preg_match('/^[+-]?\\d+$/', $serverPort) === 1) {
+        if (!$hasPort && $serverPort !== null && \preg_match('/^[+-]?\\d+$/D', $serverPort) === 1) {
             $uri = $uri->withPort((int) $serverPort);
         }
         $hasQuery = \false;
@@ -210,6 +242,26 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
     }
     public function withUploadedFiles(array $uploadedFiles) : \WPSentry\ScopedVendor\Psr\Http\Message\ServerRequestInterface
     {
+        $invalidUploadedFileFound = \false;
+        $invalidUploadedFile = null;
+        $stack = [$uploadedFiles];
+        while ($stack !== []) {
+            foreach (\array_pop($stack) as $uploadedFile) {
+                if ($uploadedFile instanceof \WPSentry\ScopedVendor\Psr\Http\Message\UploadedFileInterface) {
+                    continue;
+                }
+                if (\is_array($uploadedFile)) {
+                    $stack[] = $uploadedFile;
+                    continue;
+                }
+                $invalidUploadedFileFound = \true;
+                $invalidUploadedFile = $uploadedFile;
+                break 2;
+            }
+        }
+        if ($invalidUploadedFileFound) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing %s inside ServerRequestInterface::withUploadedFiles() is deprecated; guzzlehttp/psr7 3.0 requires an UploadedFileInterface[] tree.', \get_debug_type($invalidUploadedFile));
+        }
         $new = clone $this;
         $new->uploadedFiles = $uploadedFiles;
         return $new;
@@ -243,6 +295,9 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
     }
     public function withParsedBody($data) : \WPSentry\ScopedVendor\Psr\Http\Message\ServerRequestInterface
     {
+        if ($data !== null && !\is_array($data) && !\is_object($data)) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing %s to ServerRequestInterface::withParsedBody() is deprecated; guzzlehttp/psr7 3.0 requires array|object|null.', \get_debug_type($data));
+        }
         $new = clone $this;
         $new->parsedBody = $data;
         return $new;
@@ -256,6 +311,9 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
      */
     public function getAttribute($attribute, $default = null)
     {
+        if (!\is_string($attribute)) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing %s to ServerRequestInterface::getAttribute() is deprecated; guzzlehttp/psr7 3.0 requires string for $attribute.', \get_debug_type($attribute));
+        }
         if (\false === \array_key_exists($attribute, $this->attributes)) {
             return $default;
         }
@@ -263,12 +321,18 @@ class ServerRequest extends \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Request imple
     }
     public function withAttribute($attribute, $value) : \WPSentry\ScopedVendor\Psr\Http\Message\ServerRequestInterface
     {
+        if (!\is_string($attribute)) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing %s to ServerRequestInterface::withAttribute() is deprecated; guzzlehttp/psr7 3.0 requires string for $attribute.', \get_debug_type($attribute));
+        }
         $new = clone $this;
         $new->attributes[$attribute] = $value;
         return $new;
     }
     public function withoutAttribute($attribute) : \WPSentry\ScopedVendor\Psr\Http\Message\ServerRequestInterface
     {
+        if (!\is_string($attribute)) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing %s to ServerRequestInterface::withoutAttribute() is deprecated; guzzlehttp/psr7 3.0 requires string for $attribute.', \get_debug_type($attribute));
+        }
         if (\false === \array_key_exists($attribute, $this->attributes)) {
             return $this;
         }

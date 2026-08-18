@@ -29,10 +29,12 @@ class Request implements \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterfac
     public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1')
     {
         $this->assertMethod($method);
+        $this->assertProtocolVersion($version);
         if (!$uri instanceof \WPSentry\ScopedVendor\Psr\Http\Message\UriInterface) {
             $uri = new \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Uri($uri);
         }
-        $this->method = \strtoupper($method);
+        self::warnOnMethodCasingChange($method);
+        $this->method = \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Utils::asciiToUpper($method);
         $this->uri = $uri;
         $this->setHeaders($headers);
         $this->protocol = $version;
@@ -59,7 +61,11 @@ class Request implements \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterfac
     }
     public function withRequestTarget($requestTarget) : \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterface
     {
-        if (\preg_match('#\\s#', $requestTarget)) {
+        $hasWhitespace = \preg_match('#\\s#', $requestTarget);
+        if ($hasWhitespace === \false) {
+            throw new \RuntimeException('Unable to validate request target: ' . \preg_last_error_msg());
+        }
+        if ($hasWhitespace === 1) {
             throw new \InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
         }
         $new = clone $this;
@@ -73,8 +79,9 @@ class Request implements \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterfac
     public function withMethod($method) : \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterface
     {
         $this->assertMethod($method);
+        self::warnOnMethodCasingChange($method);
         $new = clone $this;
-        $new->method = \strtoupper($method);
+        $new->method = \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Utils::asciiToUpper($method);
         return $new;
     }
     public function getUri() : \WPSentry\ScopedVendor\Psr\Http\Message\UriInterface
@@ -83,6 +90,9 @@ class Request implements \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterfac
     }
     public function withUri(\WPSentry\ScopedVendor\Psr\Http\Message\UriInterface $uri, $preserveHost = \false) : \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterface
     {
+        if (!\is_bool($preserveHost)) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing %s to RequestInterface::withUri() is deprecated; guzzlehttp/psr7 3.0 requires bool for $preserveHost.', \get_debug_type($preserveHost));
+        }
         if ($uri === $this->uri) {
             return $this;
         }
@@ -99,9 +109,11 @@ class Request implements \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterfac
         if ($host == '') {
             return;
         }
+        \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Uri::assertValidHost($host);
         if (($port = $this->uri->getPort()) !== null) {
             $host .= ':' . $port;
         }
+        $this->assertValue($host);
         if (isset($this->headerNames['host'])) {
             $header = $this->headerNames['host'];
         } else {
@@ -119,6 +131,13 @@ class Request implements \WPSentry\ScopedVendor\Psr\Http\Message\RequestInterfac
     {
         if (!\is_string($method) || $method === '') {
             throw new \InvalidArgumentException('Method must be a non-empty string.');
+        }
+        $this->assertNoLineSeparators($method, 'Method');
+    }
+    private static function warnOnMethodCasingChange(string $method) : void
+    {
+        if ($method !== \WPSentry\ScopedVendor\GuzzleHttp\Psr7\Utils::asciiToUpper($method)) {
+            \WPSentry\ScopedVendor\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing a non-uppercase HTTP method is deprecated; guzzlehttp/psr7 3.0 preserves method casing and will no longer uppercase it. Normalize the method before constructing or modifying requests if uppercase is required.');
         }
     }
 }

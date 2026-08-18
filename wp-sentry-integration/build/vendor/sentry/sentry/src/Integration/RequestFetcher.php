@@ -19,6 +19,10 @@ final class RequestFetcher implements \Sentry\Integration\RequestFetcherInterfac
         if (!isset($_SERVER['REQUEST_METHOD']) || \PHP_SAPI === 'cli') {
             return null;
         }
-        return \WPSentry\ScopedVendor\GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        try {
+            return \WPSentry\ScopedVendor\GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        } catch (\InvalidArgumentException $e) {
+            return null;
+        }
     }
 }

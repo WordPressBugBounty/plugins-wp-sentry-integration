@@ -35,7 +35,7 @@ use Sentry\Util\SentryUid;
  *       version: string,
  *       build_number: string,
  *    },
- *    platform: string,
+ *    platform: 'php',
  *    release: string,
  *    environment: string,
  *    runtime: array{

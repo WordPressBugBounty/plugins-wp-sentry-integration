@@ -110,8 +110,8 @@ final class DynamicSamplingContext
                 continue;
             }
             [$key, $value] = \explode('=', $keyValue, 2);
-            if (\mb_substr($key, 0, \mb_strlen(self::SENTRY_ENTRY_PREFIX)) === self::SENTRY_ENTRY_PREFIX) {
-                $samplingContext->set(\rawurldecode(\mb_substr($key, \mb_strlen(self::SENTRY_ENTRY_PREFIX))), \rawurldecode($value));
+            if (\strncmp($key, self::SENTRY_ENTRY_PREFIX, \strlen(self::SENTRY_ENTRY_PREFIX)) === 0) {
+                $samplingContext->set(\rawurldecode(\substr($key, \strlen(self::SENTRY_ENTRY_PREFIX))), \rawurldecode($value));
             }
         }
         // Once we receive a baggage header with Sentry entries from an upstream SDK,

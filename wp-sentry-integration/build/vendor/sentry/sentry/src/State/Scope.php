@@ -278,6 +278,15 @@ class Scope
         return $this;
     }
     /**
+     * Gets the breadcrumbs.
+     *
+     * @return Breadcrumb[]
+     */
+    public function getBreadcrumbs() : array
+    {
+        return $this->breadcrumbs;
+    }
+    /**
      * Clears all the breadcrumbs.
      *
      * @return $this
@@ -384,7 +393,7 @@ class Scope
         if (!empty($this->flags)) {
             $event->setContext('flags', ['values' => \array_map(static function (array $flag) {
                 return ['flag' => \key($flag), 'result' => \current($flag)];
-            }, $this->flags)]);
+            }, \array_values($this->flags))]);
         }
         if (!empty($this->extra)) {
             $event->setExtra(\array_merge($this->extra, $event->getExtra()));

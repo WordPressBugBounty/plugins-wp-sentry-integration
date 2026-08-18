@@ -5,7 +5,6 @@ namespace Sentry\Integration;
 
 use WPSentry\ScopedVendor\Composer\InstalledVersions;
 use WPSentry\ScopedVendor\Jean85\PrettyVersions;
-use WPSentry\ScopedVendor\PackageVersions\Versions;
 use Sentry\Event;
 use Sentry\SentrySdk;
 use Sentry\State\Scope;
@@ -58,11 +57,16 @@ final class ModulesIntegration implements \Sentry\Integration\IntegrationInterfa
         if (\class_exists(\WPSentry\ScopedVendor\Composer\InstalledVersions::class)) {
             return \WPSentry\ScopedVendor\Composer\InstalledVersions::getInstalledPackages();
         }
-        if (\class_exists(\WPSentry\ScopedVendor\PackageVersions\Versions::class)) {
+        $versionsClass = 'WPSentry\\ScopedVendor\\PackageVersions\\Versions';
+        if (\class_exists($versionsClass)) {
             // BC layer for Composer 1, using a transient dependency
-            /** @var string[] $packages */
-            $packages = \array_keys(\WPSentry\ScopedVendor\PackageVersions\Versions::VERSIONS);
-            return $packages;
+            /** @var mixed $versions */
+            $versions = \constant($versionsClass . '::VERSIONS');
+            if (\is_array($versions)) {
+                /** @var string[] $packages */
+                $packages = \array_keys($versions);
+                return $packages;
+            }
         }
         // this should not happen
         return ['sentry/sentry'];
